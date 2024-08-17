@@ -31,16 +31,16 @@ func _ready() -> void:
 	broke.connect(_on_broke)
 
 
-func initialize(level_: Level):
-	self.level = level_
-	grid_position = global_position / level.tile_size
+func initialize(level_: Level, grid_position_: Vector2i) -> void:
+	level = level_
+	grid_position = grid_position_
 	level.set_entity(grid_position, self)
 
 
 func set_grid_position(new_position: Vector2i):
 	level.remove_entity(grid_position, self)
 	grid_position = new_position
-	level.set_entity(grid_position, self)
+	level.set_entity(grid_position, self, false)
 
 
 func can_move(direction: Vector2i):
