@@ -1,8 +1,8 @@
-class_name Tile
-extends RefCounted
+class_name Tile extends RefCounted
 
-var gridPos : Vector2
-var entity : Entity = null
+
+var gridPos: Vector2i
+var entity: Entity = null
 var walkable := false
 
 func is_walkable() -> bool:

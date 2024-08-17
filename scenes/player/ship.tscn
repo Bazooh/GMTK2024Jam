@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b61o18jy2hq5y"]
+
+[ext_resource type="Script" path="res://scenes/player/ship.gd" id="1_n6xoh"]
+[ext_resource type="PackedScene" uid="uid://bo8tj4g475qu7" path="res://scenes/player/segments/head.tscn" id="2_d2pxl"]
+
+[node name="Ship" type="Node2D"]
+script = ExtResource("1_n6xoh")
+
+[node name="Head" parent="." instance=ExtResource("2_d2pxl")]
+max_life = 10
+walkable = false

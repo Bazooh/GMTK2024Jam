@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://do881jw57cn6h"]
+
+[ext_resource type="PackedScene" uid="uid://ccykutr8vdp1t" path="res://scenes/player/segments/base.tscn" id="1_71ys3"]
+[ext_resource type="Script" path="res://scenes/player/segments/canon.gd" id="2_cmu0o"]
+[ext_resource type="Texture2D" uid="uid://cnbkmoycim5ou" path="res://icon.svg" id="3_nkgtq"]
+
+[node name="Segment" instance=ExtResource("1_71ys3")]
+script = ExtResource("2_cmu0o")
+radius = 10
+active_sprite = null
+max_life = 10
+walkable = false
+
+[node name="Sprite" parent="." index="0"]
+self_modulate = Color(1, 0.0434534, 0.000980905, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_nkgtq")

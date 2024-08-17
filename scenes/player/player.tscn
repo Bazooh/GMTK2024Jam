@@ -1,14 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://dadh6bvf8fcyp"]
+[gd_scene load_steps=3 format=3 uid="uid://7r010xcu8eje"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_42mvu"]
-[ext_resource type="PackedScene" uid="uid://cegn81wn31k6r" path="res://scenes/player/segments/head.tscn" id="2_tmhhe"]
+[ext_resource type="PackedScene" uid="uid://b61o18jy2hq5y" path="res://scenes/player/ship.tscn" id="1_hb7n5"]
 
-[node name="Player" type="Node2D"]
+[node name="Player" instance=ExtResource("1_hb7n5")]
 script = ExtResource("1_42mvu")
+movement_time = 0.1
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(8, 8)
+[node name="Head" parent="." index="0"]
+max_life = 10
+walkable = false
+
+[node name="Camera2D" type="Camera2D" parent="." index="1"]
 zoom = Vector2(2, 2)
-position_smoothing_enabled = true
-
-[node name="Head" parent="." instance=ExtResource("2_tmhhe")]

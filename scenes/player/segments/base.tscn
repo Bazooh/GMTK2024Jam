@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://dk33nkpoebbhb" path="res://art/Temp/Temp_Segment_Disabled.png" id="2_32lhx"]
 
 [node name="Segment" type="Node2D"]
-position = Vector2(8, 8)
 script = ExtResource("1_fah63")
 active_sprite = ExtResource("2_3hivo")
 
