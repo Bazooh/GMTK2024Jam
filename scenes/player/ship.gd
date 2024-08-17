@@ -1,4 +1,4 @@
-class_name Ship extends Entity
+class_name Ship extends Node2D
 
 
 signal died
@@ -11,8 +11,6 @@ var head: Segment
 
 
 func _ready() -> void:
-	super._ready()
-
 	died.connect(_on_death)
 
 	level = (get_tree().get_first_node_in_group("level") as Level)

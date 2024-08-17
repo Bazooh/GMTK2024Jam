@@ -15,12 +15,10 @@ func _trigger() -> void:
 		return
 	
 	var target: Segment = segments.pick_random()
-	target.life -= 1
-
-	shooting_animation(target)
+	shoot(target)
 
 
-func shooting_animation(target: Segment) -> void:
+func shoot(target: Segment) -> void:
 	var tween = get_tree().create_tween()
 
 	tween.tween_property(canon_rotation_point, "rotation", target.global_position.angle_to_point(global_position), 0.1)
@@ -28,7 +26,8 @@ func shooting_animation(target: Segment) -> void:
 
 	var bullet: Bullet = bullet_prefab.instantiate()
 	bullet.global_position = global_position
-	bullet.target = target
+	bullet.rotation = canon_rotation_point.rotation
+	bullet.direction = global_position.direction_to(target.global_position)
+	bullet.ship = ship
 
 	get_tree().get_root().add_child(bullet)
-	

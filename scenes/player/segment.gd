@@ -3,6 +3,7 @@ extends Entity
 
 
 signal broke
+signal repaired
 
 
 var grid_position := Vector2i.ZERO
@@ -18,17 +19,13 @@ var active: bool:
 @onready var sprite: Sprite2D = $Sprite
 @export var active_sprite: Texture2D
 
+@export var repair_percentage: float = 0.5
+
 
 @export var max_life: int = 10
 @onready var life: int = max_life:
 	set(value):
-		life = clamp(value, 0, max_life)
-
-
-func _ready() -> void:
-	super._ready()
-
-	broke.connect(_on_broke)
+		life = clamp(value, -INF, max_life)
 
 
 func initialize(level_: Level, grid_position_: Vector2i) -> void:
@@ -57,6 +54,9 @@ func move(direction: Vector2i, movement_time: float):
 func end_turn():
 	if life <= 0:
 		broke.emit()
+	
+	elif life > int(repair_percentage * max_life):
+		repaired.emit()
 
 
 func _trigger() -> void:
@@ -71,6 +71,11 @@ func trigger() -> void:
 func _on_broke():
 	sprite.modulate.a = 0.5
 	broken = true
+
+
+func _on_repaired():
+	sprite.modulate.a = 1
+	broken = false
 
 
 func is_enemy(entity: Entity) -> bool:

@@ -5,7 +5,7 @@
 
 [node name="Player" instance=ExtResource("1_hb7n5")]
 script = ExtResource("1_42mvu")
-movement_time = 0.1
+chunk_radius = 2
 
 [node name="Camera2D" type="Camera2D" parent="." index="1"]
 zoom = Vector2(2, 2)
