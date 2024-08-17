@@ -23,25 +23,29 @@ func _ready() -> void:
 			child.initialize(level)
 			child.ship = self
 	
-	assert(segments.size() > 0, "No segments in ship")
+	assert(not segments.is_empty(), "No segments in ship")
 
 
 func _on_death() -> void:
 	for segment in segments:
-		level.remove_entity(segment.grid_position)
+		# level.remove_entity(segment.grid_position)
+		segment.deactivate()
+
 	level.ships.erase(self)
-	
+
 	queue_free()
 
 
 func trigger() -> void:
 	for segment in segments:
-		segment.trigger()
+		if is_instance_valid(segment):
+			segment.trigger()
 
 
 func end_turn() -> void:
 	for segment in segments:
-		segment.end_turn()
+		if is_instance_valid(segment):
+			segment.end_turn()
 	
-	if segments.all(func(seg: Segment) -> bool: return seg.broken):
+	if segments.all(func(seg: Segment) -> bool: return (not is_instance_valid(seg)) or seg.broken):
 		died.emit()	

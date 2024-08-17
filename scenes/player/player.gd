@@ -9,7 +9,10 @@ var is_moving := false
 
 func _ready() -> void:
 	super._ready()
-	camera.reparent(segments[0])
+
+	var head: Segment = segments[0]
+	camera.reparent(head)
+	head.sprite.frame = 1
 
 
 func _process(_delta: float) -> void:
@@ -46,11 +49,16 @@ func can_move(direction:Vector2i) -> bool:
 	return true
 
 
-func attach_adjacent_segments():
-	var to_activate := []
+func attach_adjacent_segments() -> void:
+	var to_activate := Set.new()
+
 	for segment in segments:
-		to_activate += level.get_adjacent_inactive_segments(segment.grid_position)
+		to_activate.add_all(level.get_adjacent_unowned_segments(segment.grid_position))
+	
 	for activate_segment in to_activate:
 		activate_segment.reparent(self)
 		activate_segment.ship = self
 		segments.append(activate_segment)
+	
+	if not to_activate.is_empty():
+		attach_adjacent_segments()

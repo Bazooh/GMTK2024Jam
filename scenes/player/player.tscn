@@ -7,9 +7,5 @@
 script = ExtResource("1_42mvu")
 movement_time = 0.1
 
-[node name="Head" parent="." index="0"]
-max_life = 10
-walkable = false
-
 [node name="Camera2D" type="Camera2D" parent="." index="1"]
 zoom = Vector2(2, 2)

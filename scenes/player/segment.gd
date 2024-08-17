@@ -69,7 +69,7 @@ func trigger() -> void:
 
 
 func _on_broke():
-	sprite.self_modulate.a = 0.5
+	sprite.modulate.a = 0.5
 	broken = true
 
 
@@ -95,3 +95,8 @@ func get_entity_in_radius(radius: int, filter: Callable = func(_entity: Entity) 
 				entities.append(entity)
 	
 	return entities
+
+
+func deactivate() -> void:
+	ship = null
+	reparent(level.inactive_segments)

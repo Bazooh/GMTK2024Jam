@@ -7,7 +7,7 @@ const tile_size: float = 16.0
 @onready var ground: TileMapLayer = $Ground
 
 @export var grid_size: int = 20
-@onready var inactive_segments: Node2D = $InactiveSegments
+@onready var inactive_segments: Node2D = %InactiveSegments
 
 var grid: Array = []
 var ships: Array[Ship] = []
@@ -67,24 +67,24 @@ func is_in_grid(pos: Vector2i) -> bool:
 	return pos.x >= 0 and pos.y >= 0 and pos.x < grid_size and pos.y < grid_size
 
 
-func get_adjacent_inactive_segments(pos: Vector2i) -> Array:
+func get_adjacent_unowned_segments(pos: Vector2i) -> Array:
 	var search := []
-	if (has_inactive_segment(pos + Vector2i.UP)):
+	if (has_unowned_segment(pos + Vector2i.UP)):
 		search.append(grid[pos.x][pos.y - 1].entity)
-	if (has_inactive_segment(pos + Vector2i.RIGHT)):
+	if (has_unowned_segment(pos + Vector2i.RIGHT)):
 		search.append(grid[pos.x + 1][pos.y].entity)
-	if (has_inactive_segment(pos + Vector2i.LEFT)):
+	if (has_unowned_segment(pos + Vector2i.LEFT)):
 		search.append(grid[pos.x - 1][pos.y].entity)
-	if (has_inactive_segment(pos + Vector2i.DOWN)):
+	if (has_unowned_segment(pos + Vector2i.DOWN)):
 		search.append(grid[pos.x][pos.y + 1].entity)
 	return search
 
 
-func has_inactive_segment(pos: Vector2i) -> bool:
+func has_unowned_segment(pos: Vector2i) -> bool:
 	if not is_in_grid(pos):
 		return false
 	var tile: Tile = grid[pos.x][pos.y]
-	return (tile.entity != null and tile.entity is Segment and not tile.entity.active)
+	return (tile.entity != null and tile.entity is Segment and tile.entity.ship == null)
 
 
 func turn_changed() -> void:
@@ -93,3 +93,7 @@ func turn_changed() -> void:
 	
 	for ship in ships:
 		ship.end_turn()
+
+
+func _on_each_tick() -> void:
+	turn_changed()

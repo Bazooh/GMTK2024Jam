@@ -1,15 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://bsdjcxeu1uct4"]
+[gd_scene load_steps=5 format=3 uid="uid://bsdjcxeu1uct4"]
 
 [ext_resource type="PackedScene" uid="uid://ccykutr8vdp1t" path="res://scenes/player/segments/base.tscn" id="1_2maat"]
 [ext_resource type="Script" path="res://scenes/player/segments/heal.gd" id="2_87h71"]
-[ext_resource type="Texture2D" uid="uid://cnbkmoycim5ou" path="res://icon.svg" id="3_8abs6"]
+[ext_resource type="Texture2D" uid="uid://bs28jh8h2vwbu" path="res://art/Segments/Attachments.png" id="3_lgch5"]
+[ext_resource type="Texture2D" uid="uid://b5mmc08erpyjs" path="res://art/Segments/Orbs.png" id="4_xunrp"]
 
-[node name="Segment" instance=ExtResource("1_2maat")]
+[node name="Heal" instance=ExtResource("1_2maat")]
 script = ExtResource("2_87h71")
-radius = null
+radius = 10
 active_sprite = null
 
 [node name="Sprite" parent="." index="0"]
-self_modulate = Color(0.670588, 1, 0, 1)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("3_8abs6")
+texture = ExtResource("3_lgch5")
+hframes = 3
+
+[node name="Orbs" type="Sprite2D" parent="Sprite" index="0"]
+position = Vector2(0, -7)
+texture = ExtResource("4_xunrp")
+hframes = 3

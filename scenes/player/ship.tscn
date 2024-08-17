@@ -7,5 +7,3 @@
 script = ExtResource("1_n6xoh")
 
 [node name="Head" parent="." instance=ExtResource("2_d2pxl")]
-max_life = 10
-walkable = false
