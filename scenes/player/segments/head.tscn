@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cegn81wn31k6r"]
+
+[ext_resource type="Script" path="res://scenes/player/segment.gd" id="1_ocvdk"]
+[ext_resource type="Texture2D" uid="uid://c6f5yomdcgai2" path="res://art/Temp/Temp_Head.png" id="2_l131p"]
+
+[node name="Head" type="Node2D"]
+position = Vector2(8, 8)
+script = ExtResource("1_ocvdk")
+walkable = true
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_l131p")

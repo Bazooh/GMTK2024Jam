@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dadh6bvf8fcyp"]
+
+[ext_resource type="Script" path="res://scenes/player/player.gd" id="1_42mvu"]
+[ext_resource type="PackedScene" uid="uid://cegn81wn31k6r" path="res://scenes/player/segments/head.tscn" id="2_tmhhe"]
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_42mvu")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(8, 8)
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+
+[node name="Head" parent="." instance=ExtResource("2_tmhhe")]
