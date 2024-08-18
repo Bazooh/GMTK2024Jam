@@ -45,3 +45,33 @@ static func get_rect2i_border(rect: Rect2i, in_thickness: int = 1, out_thickness
 				border.append(case)
 	
 	return border
+
+
+static func get_bounds(a: Array) -> Rect2:
+	var min_x: float = INF
+	var min_y: float = INF
+	var max_x: float = -INF
+	var max_y: float = -INF
+
+	for item: Vector2 in a:
+		min_x = min(min_x, item.x)
+		min_y = min(min_y, item.y)
+		max_x = max(max_x, item.x)
+		max_y = max(max_y, item.y)
+
+	return Rect2(min_x, min_y, max_x - min_x, max_y - min_y)
+
+
+static func get_boundsi(a: Array) -> Rect2i:
+	var min_x := int(INF)
+	var min_y := int(INF)
+	var max_x := int(-INF)
+	var max_y := int(-INF)
+
+	for item: Vector2i in a:
+		min_x = min(min_x, item.x)
+		min_y = min(min_y, item.y)
+		max_x = max(max_x, item.x)
+		max_y = max(max_y, item.y)
+
+	return Rect2i(min_x, min_y, max_x - min_x, max_y - min_y)

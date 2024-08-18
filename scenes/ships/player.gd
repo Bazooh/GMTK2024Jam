@@ -18,6 +18,9 @@ func _ready() -> void:
 
 	level.generate_chunks_around(head.grid_position, chunk_radius)
 
+	size_changed.connect(_on_size_changed)
+	size_changed.emit()
+
 
 func _process(_delta: float) -> void:
 	if Input.is_action_pressed("up"):
@@ -42,3 +45,13 @@ func move_and_wait(direction: Vector2i) -> void:
 	await get_tree().create_timer(level.movement_time).timeout
 
 	is_moving = false
+
+
+func _on_size_changed() -> void:
+	var bounds: Rect2i = Useful.get_boundsi(segments.map(func(seg: Segment): return seg.grid_position))
+	var size: int = max(bounds.size.x, bounds.size.y)
+
+	var zoom: Vector2 = 3 * exp(-0.08 * size) * Vector2.ONE
+
+	var tween: Tween = create_tween()
+	tween.tween_property(camera, "zoom", zoom, 2.0)

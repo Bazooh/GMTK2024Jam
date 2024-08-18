@@ -2,6 +2,7 @@ class_name Ship extends Node2D
 
 
 signal died
+signal size_changed
 
 var level: Level
 var segments: Array[Segment] = []
@@ -26,6 +27,8 @@ func _ready() -> void:
 			child.ship = self
 	
 	assert(not segments.is_empty(), "No segments in ship")
+	
+	size_changed.emit()
 
 	head = segments[0]
 	head.is_head = true
@@ -85,14 +88,24 @@ func attach_adjacent_segments() -> void:
 		to_activate.add_all(level.get_adjacent_unowned_segments(segment.grid_position))
 	
 	for activate_segment in to_activate:
-		activate_segment.activate(self)
-		segments.append(activate_segment)
+		add_segment(activate_segment)
 	
 	if not to_activate.is_empty():
 		attach_adjacent_segments()
 
+
+func add_segment(segment: Segment) -> void:
+	segment.activate(self)
+	segments.append(segment)
+
+	size_changed.emit()
+
+
 func remove_segment(segment: Segment) -> void:
 	segments.erase(segment)
+
+	size_changed.emit()
+
 
 func remove_detached_segments() -> void:
 	#mark all segments still attached to head
@@ -110,7 +123,10 @@ func remove_detached_segments() -> void:
 			segment.deactivate()
 	
 	segments = attached_segments
-	
+
+	size_changed.emit()
+
+
 func mark_segments(segment: Segment):
 	if segment.marked:
 		return
