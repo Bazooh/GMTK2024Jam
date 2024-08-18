@@ -19,7 +19,7 @@ func initialize(level_: Level, grid_position_: Vector2i) -> void:
 	
 	
 func _ready():
-	type =  randi_range(1, Bullet.Bullet_Type.size() - 1)
+	type =  randi_range(1, Bullet.Bullet_Type.size() - 1) as Bullet.Bullet_Type
 	barrier.type = type
 	update_barrier()
 

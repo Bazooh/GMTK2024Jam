@@ -8,7 +8,7 @@ signal on_heal
 
 @onready var reload_timer: Timer = $ReloadTimer
 
-var loaded:= true
+var loaded := true
 
 func _ready():
 	super._ready()
@@ -20,14 +20,14 @@ func _trigger() -> void:
 	if segments.is_empty() or !loaded:
 		return
 		
-	var target: Segment = Useful.sort(segments, func(seg: Segment) -> int: return (float(seg.life) / seg.max_life))[0]
+	loaded = false
+
+	var target: Segment = Useful.sort(segments, func(seg: Segment) -> float: return float(seg.life) / seg.max_life)[0]
 	if target.life < target.max_life:
 		target.heal(heal_amount)
 		on_heal.emit()
-		loaded = false
 		reload_timer.start(reload_time)
 	else:
-		loaded = false
 		reload_timer.start(0.1)
 		
 

@@ -9,14 +9,14 @@ const bullet_prefab: PackedScene = preload("res://scenes/projectiles/bullet.tscn
 @onready var canon_rotation_point: Node2D = %RotationPoint
 
 
-var type : Bullet.Bullet_Type:
+var type: Bullet.Bullet_Type:
 	set(value):
 		type = value
 		on_set_type.emit(type)
 
 func initialize(level_: Level, grid_position_: Vector2i) -> void:
 	super.initialize(level_, grid_position_)
-	type = randi_range(1, Bullet.Bullet_Type.size() - 1)
+	type = randi_range(1, Bullet.Bullet_Type.size() - 1) as Bullet.Bullet_Type
 	
 func _trigger() -> void:
 	var segments: Array = get_entity_in_radius(radius, is_active_enemy)
@@ -56,12 +56,12 @@ func pick_target(possible_segments: Array) -> Segment:
 	var highest_priority_segments = []
 	
 	for segment in possible_segments:
-		var priority: int = get_segment_priority(segment)
-		if  priority > highest_priority:
+		var seg_priority: int = get_segment_priority(segment)
+		if  seg_priority > highest_priority:
 			highest_priority_segments.clear()
-			highest_priority = priority
+			highest_priority = seg_priority
 			highest_priority_segments.push_back(segment)
-		elif priority == highest_priority:
+		elif seg_priority == highest_priority:
 			highest_priority_segments.push_back(segment)
 			
 	return highest_priority_segments.pick_random()
