@@ -9,9 +9,9 @@ const max_jump := 10.0
 var clouds: Array[Sprite2D] = []
 
 #spawn clouds within the bounds of the chunk
-func generate_clouds(chunk_start: Vector2i, chunk_size: int):
-	var x := 0.0
-	var y := 0.0
+func generate_clouds(chunk_start: Vector2, chunk_size: float):
+	var x: float = 0.0
+	var y: float = 0.0
 	
 	while (x < chunk_size and y < chunk_size):
 		var texture : Texture = cloud_sprites.pick_random()
