@@ -20,6 +20,7 @@ shader_parameter/flash_value = 0.0
 [node name="Cannon" instance=ExtResource("1_lnrul")]
 script = ExtResource("2_c3kim")
 radius = 10
+max_life = 6
 
 [node name="Sprite" parent="." index="0"]
 material = SubResource("ShaderMaterial_ki4ag")

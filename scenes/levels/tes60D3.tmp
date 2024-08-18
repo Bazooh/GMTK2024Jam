@@ -27,5 +27,6 @@ position = Vector2(16, 0)
 
 [node name="Player" parent="Level/Ships" instance=ExtResource("2_cgfn2")]
 position = Vector2(80, 80)
+chunk_radius = null
 
 [connection signal="timeout" from="Level/TickSpeed" to="Level" method="_on_each_tick"]

@@ -10,7 +10,8 @@ var is_moving := false
 func _ready() -> void:
 	super._ready()
 
-	await level.ready
+	if not level.is_node_ready():
+		await level.ready
 
 	camera.reparent(head)
 	head.sprite.frame = 1

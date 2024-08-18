@@ -26,6 +26,7 @@ script = ExtResource("2_87h71")
 radius = 2
 heal_amount = 3
 reload_time = 3.0
+max_life = 6
 
 [node name="Sprite" parent="." index="0"]
 material = SubResource("ShaderMaterial_dwv72")

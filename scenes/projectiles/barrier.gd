@@ -16,5 +16,4 @@ func set_enabled(enabled: bool):
 	monitorable = enabled
 
 func block_bullet():
-	print("block!")
 	on_block.emit()

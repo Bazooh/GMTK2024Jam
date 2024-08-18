@@ -4,4 +4,4 @@ class_name Entity extends Area2D
 
 
 func _ready() -> void:
-    pass
+	pass

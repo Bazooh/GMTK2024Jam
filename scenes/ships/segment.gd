@@ -23,9 +23,9 @@ var ship: Ship:
 	set(value):
 		ship = value
 		if value == null:
-			sprite.frame_coords.x = 0
+			$Sprite.frame_coords.x = 0
 		else:
-			sprite.frame_coords.x = value.segment_frame
+			$Sprite.frame_coords.x = value.segment_frame
 		
 
 @onready var sprite: SpriteFlash = $Sprite

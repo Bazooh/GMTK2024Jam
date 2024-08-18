@@ -16,9 +16,11 @@ const tile_size: float = 16.0
 const chunk_size: int = 16
 
 @onready var inactive_segments: Node2D = %InactiveSegments
+@onready var ships_node: Node2D = $Ships
 
 @export var movement_time: float = 0.1
-@export var segment_density: float = 0.01
+@export var segment_density: float = 0.002
+@export var enemy_density: float = 0.002
 
 var grid := {}
 var ships: Array[Ship] = []
@@ -33,7 +35,6 @@ func _input(event: InputEvent) -> void:
 func _ready() -> void:
 	for inactive_segment in inactive_segments.get_children():
 		inactive_segment.initialize(self, inactive_segment.global_position / tile_size)
-
 
 func walkable(ship: Ship, pos: Vector2i) -> bool:
 	var entity: Entity = get_entity(pos)
@@ -58,6 +59,10 @@ func remove_entity(pos: Vector2i, entity: Entity = null) -> void:
 
 func get_entity(pos: Vector2i) -> Entity:
 	if grid.has(pos):
+		if grid[pos] == null:
+			grid.erase(pos)
+			return
+			
 		return grid[pos]
 	return null
 
@@ -72,6 +77,15 @@ func get_adjacent_unowned_segments(pos: Vector2i) -> Array:
 
 	return search
 
+func get_adjacent_free_spots(pos: Vector2i) -> Array:
+	var search := []
+
+	for direction: Vector2i in DIRECTIONS:
+		var new_pos: Vector2i = pos + direction
+		if get_entity(new_pos) == null:
+			search.append(new_pos)
+
+	return search
 
 func has_unowned_segment(pos: Vector2i) -> bool:
 	var entity: Entity = get_entity(pos)
@@ -96,14 +110,19 @@ func _on_each_tick() -> void:
 func generate_ship(pos: Vector2i) -> void:
 	var ship: Ship = enemy_prebab.instantiate()
 	ship.global_position = pos * tile_size
-	add_child.call_deferred(ship)
-
+	ships_node.add_child.call_deferred(ship)
+	
+	#start the ship with one segment for testing
+	var free_spots = get_adjacent_free_spots(pos)
+	if len(free_spots) > 0:
+		var segment_pos : Vector2i = free_spots.pick_random()
+		var new_segment: Segment = segments_prefab.pick_random().instantiate()
+		new_segment.global_position = segment_pos * tile_size
+		ship.add_child.call_deferred(new_segment)
+		new_segment.initialize(self, segment_pos)
+	
 
 func add_random_segment(pos: Vector2i) -> void:
-	if randf() < 0.2:
-		generate_ship(pos)
-		return
-
 	var new_segment: Segment = segments_prefab.pick_random().instantiate()
 	inactive_segments.add_child(new_segment)
 	new_segment.initialize(self, pos)
@@ -116,8 +135,12 @@ func generater_chunk(chunk_id: Vector2i) -> void:
 	for x in range(chunk_id.x * chunk_size, (chunk_id.x + 1) * chunk_size):
 		for y in range(chunk_id.y * chunk_size, (chunk_id.y + 1) * chunk_size):
 			var pos := Vector2i(x, y)
-			if not grid.has(pos) and randf() < segment_density:
-				add_random_segment(pos)
+			if not grid.has(pos): 
+				if randf() < segment_density:
+					add_random_segment(pos)
+				elif randf() < enemy_density:
+					generate_ship(pos)
+			
 	
 	chunk_generated.add(chunk_id)
 

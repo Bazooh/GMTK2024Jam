@@ -11,16 +11,17 @@ var type : Bullet.Bullet_Type:
 
 func initialize(level_: Level, grid_position_: Vector2i) -> void:
 	super.initialize(level_, grid_position_)
-	type =  randi_range(1, Bullet.Bullet_Type.size())
-	barrier.type = type
 	
 	broke.connect(update_barrier)
 	repaired.connect(update_barrier)
 	activated.connect(update_barrier)
 	deactivated.connect(update_barrier)
 	
-	update_barrier()
 	
+func _ready():
+	type =  randi_range(1, Bullet.Bullet_Type.size() - 1)
+	barrier.type = type
+	update_barrier()
 
 func update_barrier():
 	barrier.set_enabled(ship != null and not broken)
