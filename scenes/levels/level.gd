@@ -40,6 +40,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
+	get_tree().root.get_viewport().set_canvas_cull_mask_bit(1, false)
+
 	for inactive_segment in inactive_segments.get_children():
 		inactive_segment.initialize(self, inactive_segment.global_position / tile_size)
 	

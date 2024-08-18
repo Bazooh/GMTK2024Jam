@@ -1,8 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://bxtqus3vp2ncy"]
+[gd_scene load_steps=5 format=3 uid="uid://bxtqus3vp2ncy"]
 
 [ext_resource type="PackedScene" uid="uid://b61o18jy2hq5y" path="res://scenes/ships/ship.tscn" id="1_ca2gd"]
 [ext_resource type="Script" path="res://scenes/ships/enemy.gd" id="2_n30ew"]
+[ext_resource type="Shader" path="res://shaders/sprite_flash.gdshader" id="3_pbm5c"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_iyqyv"]
+resource_local_to_scene = true
+shader = ExtResource("3_pbm5c")
+shader_parameter/base_transparency = 1.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
 
 [node name="Enemy" instance=ExtResource("1_ca2gd")]
 script = ExtResource("2_n30ew")
 segment_frame = 2
+
+[node name="Sprite" parent="Head" index="0"]
+material = SubResource("ShaderMaterial_iyqyv")
+
+[editable path="Head"]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://7r010xcu8eje"]
+[gd_scene load_steps=8 format=3 uid="uid://7r010xcu8eje"]
 
 [ext_resource type="Script" path="res://scenes/ships/player.gd" id="1_42mvu"]
 [ext_resource type="PackedScene" uid="uid://b61o18jy2hq5y" path="res://scenes/ships/ship.tscn" id="1_hb7n5"]
 [ext_resource type="Shader" path="res://shaders/sprite_flash.gdshader" id="3_fmg4g"]
 [ext_resource type="Texture2D" uid="uid://xrisu1202k6i" path="res://art/Segments/PlayerHead.png" id="3_fo3l3"]
+[ext_resource type="Texture2D" uid="uid://coll1mtsis7fr" path="res://art/Minimap/Arrow.png" id="5_8faa4"]
 [ext_resource type="Script" path="res://scenes/ui/minimap.gd" id="5_jq1st"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hai56"]
@@ -13,14 +14,20 @@ shader_parameter/base_transparency = 1.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_value = 0.0
 
-[node name="Player" instance=ExtResource("1_hb7n5")]
+[node name="Player" node_paths=PackedStringArray("minimap_stamp") instance=ExtResource("1_hb7n5")]
 script = ExtResource("1_42mvu")
 chunk_radius = 2
+minimap_stamp = NodePath("Head/MinimapStamp")
 segment_frame = 1
 
 [node name="Sprite" parent="Head" index="0"]
 material = SubResource("ShaderMaterial_hai56")
 texture = ExtResource("3_fo3l3")
+
+[node name="MinimapStamp" parent="Head" index="2"]
+modulate = Color(0, 1, 0, 1)
+rotation = 0.785398
+texture = ExtResource("5_8faa4")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Head" index="3"]
 remote_path = NodePath("../../CanvasLayer/SubViewportContainer/SubViewport/Camera2D")
@@ -39,6 +46,7 @@ offset_right = -50.0
 grow_horizontal = 0
 
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer" index="0"]
+transparent_bg = true
 handle_input_locally = false
 size = Vector2i(150, 150)
 render_target_update_mode = 4

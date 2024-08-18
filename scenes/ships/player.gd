@@ -6,6 +6,8 @@ var is_moving := false
 
 @export var chunk_radius: int = 2
 
+@export var minimap_stamp: Sprite2D
+
 
 func _ready() -> void:
 	super._ready()
@@ -39,6 +41,9 @@ func move_and_wait(direction: Vector2i) -> void:
 	
 	is_moving = true
 	move(direction)
+
+	var tween: Tween = create_tween()
+	tween.tween_property(minimap_stamp, "rotation", Vector2(direction).angle() + PI / 4, 0.1)
 
 	level.generate_chunks_around(head.grid_position, chunk_radius)
 
