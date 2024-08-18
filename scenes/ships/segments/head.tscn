@@ -12,8 +12,11 @@ shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_value = 0.0
 
 [node name="Head" instance=ExtResource("1_4bwtj")]
+damage_percentage = null
 broken_percentage = 0.0
+repair_percentage = null
 max_life = 20
+walkable = null
 
 [node name="Sprite" parent="." index="0"]
 material = SubResource("ShaderMaterial_brq3j")

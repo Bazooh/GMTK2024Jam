@@ -17,11 +17,6 @@ size = Vector2(14, 14)
 
 [node name="Segment" type="Area2D"]
 script = ExtResource("1_fah63")
-damage_percentage = null
-broken_percentage = null
-repair_percentage = null
-max_life = null
-walkable = null
 
 [node name="Sprite" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_a7yas")

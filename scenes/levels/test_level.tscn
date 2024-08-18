@@ -30,6 +30,7 @@ position = Vector2(80, 256)
 
 [node name="Cannon" parent="Level/Ships/Enemy" instance=ExtResource("4_uevfv")]
 position = Vector2(16, 0)
+radius = null
 
 [node name="Player" parent="Level/Ships" instance=ExtResource("2_cgfn2")]
 position = Vector2(80, 80)

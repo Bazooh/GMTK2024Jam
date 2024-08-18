@@ -93,6 +93,7 @@ func attach_adjacent_segments() -> void:
 
 func remove_segment(segment: Segment) -> void:
 	segments.erase(segment)
+	remove_detached_segments()
 
 func remove_detached_segments() -> void:
 	#mark all segments still attached to head
@@ -118,7 +119,6 @@ func mark_segments(segment: Segment):
 	segment.marked = true
 	
 	for direction in level.DIRECTIONS:
-		var adjacent = level.get_entity(segment.position + direction)
+		var adjacent = level.get_entity(segment.grid_position + direction)
 		if segment.is_ally(adjacent):
 			mark_segments(adjacent)
-	

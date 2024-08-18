@@ -18,6 +18,11 @@ shader_parameter/flash_value = 0.0
 
 [node name="Shield" instance=ExtResource("1_v6y7e")]
 script = ExtResource("2_1ls5m")
+damage_percentage = null
+broken_percentage = null
+repair_percentage = null
+max_life = null
+walkable = null
 
 [node name="Barrier" parent="." index="0" instance=ExtResource("3_rtxph")]
 
