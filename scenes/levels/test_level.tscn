@@ -1,9 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://cnqvpdq56tvmw"]
+[gd_scene load_steps=11 format=3 uid="uid://cnqvpdq56tvmw"]
 
 [ext_resource type="Script" path="res://scenes/levels/level.gd" id="1_6p2av"]
 [ext_resource type="PackedScene" uid="uid://7r010xcu8eje" path="res://scenes/ships/player.tscn" id="2_cgfn2"]
 [ext_resource type="PackedScene" uid="uid://do881jw57cn6h" path="res://scenes/ships/segments/cannon.tscn" id="4_uevfv"]
+[ext_resource type="Script" path="res://scenes/levels/Clouds/clouds.gd" id="5_bbkpp"]
+[ext_resource type="Texture2D" uid="uid://conhb664qq1p5" path="res://art/Clouds/Cloud0.png" id="6_h7sgp"]
 [ext_resource type="PackedScene" uid="uid://bxtqus3vp2ncy" path="res://scenes/ships/enemy.tscn" id="6_im68j"]
+[ext_resource type="Texture2D" uid="uid://bjguln1u4t5q3" path="res://art/Clouds/Cloud1.png" id="7_vwqjg"]
+[ext_resource type="Texture2D" uid="uid://bkxmqi1p76w71" path="res://art/Clouds/Cloud2.png" id="8_07h0j"]
+[ext_resource type="Texture2D" uid="uid://ddip55m6c2e8l" path="res://art/Clouds/Cloud3.png" id="9_deq8a"]
+[ext_resource type="Texture2D" uid="uid://bhw2gfqeg25yp" path="res://art/Clouds/Cloud4.png" id="10_qim4v"]
 
 [node name="TestLevel" type="Node2D"]
 
@@ -27,5 +33,9 @@ position = Vector2(16, 0)
 
 [node name="Player" parent="Level/Ships" instance=ExtResource("2_cgfn2")]
 position = Vector2(80, 80)
+
+[node name="Clouds" type="Node2D" parent="."]
+script = ExtResource("5_bbkpp")
+cloud_sprites = Array[Texture]([ExtResource("6_h7sgp"), ExtResource("7_vwqjg"), ExtResource("8_07h0j"), ExtResource("9_deq8a"), ExtResource("10_qim4v")])
 
 [connection signal="timeout" from="Level/TickSpeed" to="Level" method="_on_each_tick"]

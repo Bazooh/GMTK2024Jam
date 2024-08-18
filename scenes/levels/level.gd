@@ -17,6 +17,7 @@ const chunk_size: int = 16
 
 @onready var inactive_segments: Node2D = %InactiveSegments
 @onready var ships_node: Node2D = $Ships
+@onready var clouds: Clouds = $"../Clouds"
 
 @export var movement_time: float = 0.1
 @export var segment_density: float = 0.002
@@ -143,6 +144,8 @@ func generater_chunk(chunk_id: Vector2i) -> void:
 			
 	
 	chunk_generated.add(chunk_id)
+	
+	clouds.generate_clouds(chunk_id * chunk_size * tile_size, chunk_size * tile_size)
 
 
 func get_chunk_id(pos: Vector2i) -> Vector2i:

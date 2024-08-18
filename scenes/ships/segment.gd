@@ -39,7 +39,7 @@ var ship: Ship:
 		life = clamp(value, 0, max_life)
 		life_changed.emit(value, max_life)
 		
-		if life > max_life/2:
+		if life > float(max_life)/2:
 			sprite.frame_coords.y = 0
 		elif life > 0:
 			sprite.frame_coords.y = 1
