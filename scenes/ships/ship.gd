@@ -85,8 +85,7 @@ func attach_adjacent_segments() -> void:
 		to_activate.add_all(level.get_adjacent_unowned_segments(segment.grid_position))
 	
 	for activate_segment in to_activate:
-		activate_segment.reparent(self)
-		activate_segment.ship = self
+		activate_segment.activate(self)
 		segments.append(activate_segment)
 	
 	if not to_activate.is_empty():

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0sm0llkayore"
-path="res://.godot/imported/Laser_Red.png-71efce5da72f2475ec60ef6263c69956.ctex"
+uid="uid://jlfqy4jo8lmy"
+path="res://.godot/imported/Shield_Red.png-573916d7ff1175322c258ad06b8fbeed.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/Bullets/Laser_Red.png"
-dest_files=["res://.godot/imported/Laser_Red.png-71efce5da72f2475ec60ef6263c69956.ctex"]
+source_file="res://art/Attachments/Shield_Red.png"
+dest_files=["res://.godot/imported/Shield_Red.png-573916d7ff1175322c258ad06b8fbeed.ctex"]
 
 [params]
 

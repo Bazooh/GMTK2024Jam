@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bo8tj4g475qu7"]
 
-[ext_resource type="PackedScene" uid="uid://ccykutr8vdp1t" path="res://scenes/player/segments/base.tscn" id="1_4bwtj"]
+[ext_resource type="PackedScene" uid="uid://ccykutr8vdp1t" path="res://scenes/ships/segments/base.tscn" id="1_4bwtj"]
 [ext_resource type="Texture2D" uid="uid://ctxtxl4iugimc" path="res://art/Segments/EnemyHead.png" id="2_5cmbk"]
 
 [node name="Head" instance=ExtResource("1_4bwtj")]

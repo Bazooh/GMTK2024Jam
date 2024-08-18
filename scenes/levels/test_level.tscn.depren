@@ -9,6 +9,8 @@
 
 [node name="Level" type="Node2D" parent="." groups=["level"]]
 script = ExtResource("1_6p2av")
+movement_time = null
+segment_density = null
 
 [node name="TickSpeed" type="Timer" parent="Level"]
 wait_time = 0.1
@@ -21,7 +23,7 @@ unique_name_in_owner = true
 position = Vector2(80, 80)
 
 [node name="Enemy" parent="Level" instance=ExtResource("6_im68j")]
-position = Vector2(80, 256)
+position = Vector2(80, 144)
 
 [node name="Cannon" parent="Level/Enemy" instance=ExtResource("4_uevfv")]
 position = Vector2(16, 0)

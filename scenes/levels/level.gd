@@ -5,11 +5,12 @@ extends Node2D
 const DIRECTIONS := [Vector2i.UP, Vector2i.RIGHT, Vector2i.LEFT, Vector2i.DOWN]
 
 const segments_prefab: Array[PackedScene] = [
-	preload("res://scenes/player/segments/canon.tscn"),
-	preload("res://scenes/player/segments/heal.tscn"),
+	preload("res://scenes/ships/segments/cannon.tscn"),
+	preload("res://scenes/ships/segments/heal.tscn"),
+	preload("res://scenes/ships/segments/shield.tscn")
 ]
 
-const enemy_prebab: PackedScene = preload("res://scenes/player/enemy.tscn")
+const enemy_prebab: PackedScene = preload("res://scenes/ships/enemy.tscn")
 
 const tile_size: float = 16.0
 const chunk_size: int = 16

@@ -1,11 +1,12 @@
 class_name Segment
 extends Entity
 
-
+signal deactivated
+signal activated
 signal broke
 signal repaired
 signal life_changed(current: int, max: int)
-signal deactivated
+
 
 
 var grid_position := Vector2i.ZERO
@@ -113,7 +114,11 @@ func get_entity_in_radius(radius: int, filter: Callable = func(_entity: Entity) 
 	
 	return entities
 
-
+func activate(ship_: Ship) -> void:
+	ship = ship_
+	reparent(ship_)
+	activated.emit()
+	
 func deactivate() -> void:
 	ship = null
 	reparent(level.inactive_segments)

@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://bxtqus3vp2ncy"]
-
-[ext_resource type="PackedScene" uid="uid://b61o18jy2hq5y" path="res://scenes/player/ship.tscn" id="1_ca2gd"]
-[ext_resource type="Script" path="res://scenes/player/enemy.gd" id="2_n30ew"]
-
-[node name="Enemy" instance=ExtResource("1_ca2gd")]
-script = ExtResource("2_n30ew")
-segment_frame = 2

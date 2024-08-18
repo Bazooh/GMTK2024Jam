@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b61o18jy2hq5y"]
 
-[ext_resource type="Script" path="res://scenes/player/ship.gd" id="1_n6xoh"]
-[ext_resource type="PackedScene" uid="uid://bo8tj4g475qu7" path="res://scenes/player/segments/head.tscn" id="2_d2pxl"]
+[ext_resource type="Script" path="res://scenes/ships/ship.gd" id="1_n6xoh"]
+[ext_resource type="PackedScene" uid="uid://bo8tj4g475qu7" path="res://scenes/ships/segments/head.tscn" id="2_d2pxl"]
 [ext_resource type="PackedScene" uid="uid://bcwy62b3bimxl" path="res://scenes/ui/ship_ui.tscn" id="3_jgq2n"]
 
 [node name="Ship" type="Node2D"]

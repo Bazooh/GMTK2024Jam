@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://dy8k2egti47l2"]
+
+[ext_resource type="Texture2D" uid="uid://b0sm0llkayore" path="res://art/Projectiles/Laser_Red.png" id="1_8if7r"]
+[ext_resource type="Script" path="res://scenes/projectiles/bullet.gd" id="2_g83y5"]
+[ext_resource type="Texture2D" uid="uid://cth6g26qv0pg2" path="res://art/Projectiles/Laser_Blue.png" id="2_yl4vm"]
+[ext_resource type="Texture2D" uid="uid://dbv25rysimo3q" path="res://art/Projectiles/Laser_Yellow.png" id="4_emypm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_223dc"]
+radius = 6.0
+
+[node name="Bullet" type="Area2D"]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("2_g83y5")
+blue_texture = ExtResource("2_yl4vm")
+red_texture = ExtResource("1_8if7r")
+yellow_texture = ExtResource("4_emypm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_223dc")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_8if7r")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
