@@ -1,4 +1,4 @@
-extends Sprite2D
+extends SpriteFlash
 
 @export_group("Colour textures")
 @export var blue_texture: Texture
@@ -15,6 +15,8 @@ var type : Bullet.Bullet_Type:
 				texture = red_texture
 			Bullet.Bullet_Type.YELLOW:
 				texture = yellow_texture
+			_:
+				push_warning("Not a valid type!")
 
 
 func _set_type(type_: Bullet.Bullet_Type):

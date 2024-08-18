@@ -1,18 +1,44 @@
-[gd_scene load_steps=5 format=3 uid="uid://bsdjcxeu1uct4"]
+[gd_scene load_steps=9 format=3 uid="uid://bsdjcxeu1uct4"]
 
 [ext_resource type="PackedScene" uid="uid://ccykutr8vdp1t" path="res://scenes/ships/segments/base.tscn" id="1_2maat"]
 [ext_resource type="Script" path="res://scenes/ships/segments/heal.gd" id="2_87h71"]
 [ext_resource type="Texture2D" uid="uid://bs28jh8h2vwbu" path="res://art/Segments/Attachments.png" id="3_lgch5"]
+[ext_resource type="Shader" path="res://shaders/sprite_flash.gdshader" id="3_sy71d"]
 [ext_resource type="Texture2D" uid="uid://b5mmc08erpyjs" path="res://art/Segments/Orbs.png" id="4_xunrp"]
+[ext_resource type="Script" path="res://scenes/ships/segments/sprite_flash.gd" id="6_tlp2b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dwv72"]
+resource_local_to_scene = true
+shader = ExtResource("3_sy71d")
+shader_parameter/base_transparency = 1.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wpfqu"]
+resource_local_to_scene = true
+shader = ExtResource("3_sy71d")
+shader_parameter/base_transparency = 1.0
+shader_parameter/flash_color = null
+shader_parameter/flash_value = null
 
 [node name="Heal" instance=ExtResource("1_2maat")]
 script = ExtResource("2_87h71")
 radius = 2
+heal_amount = 3
+reload_time = 3.0
 
 [node name="Sprite" parent="." index="0"]
+material = SubResource("ShaderMaterial_dwv72")
 texture = ExtResource("3_lgch5")
 
 [node name="Orbs" type="Sprite2D" parent="Sprite" index="0"]
+material = SubResource("ShaderMaterial_wpfqu")
 position = Vector2(0, -7)
 texture = ExtResource("4_xunrp")
 hframes = 3
+script = ExtResource("6_tlp2b")
+
+[node name="ReloadTimer" type="Timer" parent="." index="2"]
+
+[connection signal="on_heal" from="." to="Sprite/Orbs" method="white_flash"]
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

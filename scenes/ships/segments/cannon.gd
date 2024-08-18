@@ -16,7 +16,7 @@ var type : Bullet.Bullet_Type:
 
 func initialize(level_: Level, grid_position_: Vector2i) -> void:
 	super.initialize(level_, grid_position_)
-	type =  randi_range(1, Bullet.Bullet_Type.size())
+	type = randi_range(1, Bullet.Bullet_Type.size() - 1)
 	
 func _trigger() -> void:
 	var segments: Array = get_entity_in_radius(radius, is_active_enemy)

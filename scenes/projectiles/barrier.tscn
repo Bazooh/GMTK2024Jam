@@ -1,10 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://dcabhjdaqkpwc"]
+[gd_scene load_steps=9 format=3 uid="uid://dcabhjdaqkpwc"]
 
 [ext_resource type="Script" path="res://scenes/projectiles/barrier.gd" id="1_ka1n0"]
 [ext_resource type="Texture2D" uid="uid://bckkgmrd0qvfo" path="res://art/Projectiles/Shield_Blue.png" id="1_vjwrt"]
+[ext_resource type="Shader" path="res://shaders/sprite_flash.gdshader" id="2_ritnn"]
 [ext_resource type="Script" path="res://scenes/ships/attachments/coloured_attachment.gd" id="2_yd3ot"]
 [ext_resource type="Texture2D" uid="uid://clb7y50q1ydn5" path="res://art/Projectiles/Shield_Red.png" id="3_o0wx4"]
 [ext_resource type="Texture2D" uid="uid://dw8f7h0q58fbh" path="res://art/Projectiles/Shield_Yellow.png" id="4_42too"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e8dpb"]
+resource_local_to_scene = true
+shader = ExtResource("2_ritnn")
+shader_parameter/base_transparency = 0.3
+shader_parameter/flash_color = null
+shader_parameter/flash_value = null
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dqt6y"]
 radius = 33.1361
@@ -17,6 +25,7 @@ script = ExtResource("1_ka1n0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.298039)
+material = SubResource("ShaderMaterial_e8dpb")
 texture = ExtResource("1_vjwrt")
 script = ExtResource("2_yd3ot")
 blue_texture = ExtResource("1_vjwrt")
@@ -26,4 +35,5 @@ yellow_texture = ExtResource("4_42too")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_dqt6y")
 
+[connection signal="on_block" from="." to="Sprite2D" method="white_flash"]
 [connection signal="on_set_type" from="." to="Sprite2D" method="_set_type"]

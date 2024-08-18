@@ -1,19 +1,28 @@
-[gd_scene load_steps=9 format=3 uid="uid://do881jw57cn6h"]
+[gd_scene load_steps=11 format=3 uid="uid://do881jw57cn6h"]
 
 [ext_resource type="PackedScene" uid="uid://ccykutr8vdp1t" path="res://scenes/ships/segments/base.tscn" id="1_lnrul"]
 [ext_resource type="Script" path="res://scenes/ships/segments/cannon.gd" id="2_c3kim"]
 [ext_resource type="Texture2D" uid="uid://bs28jh8h2vwbu" path="res://art/Segments/Attachments.png" id="3_8qxa5"]
+[ext_resource type="Shader" path="res://shaders/sprite_flash.gdshader" id="3_nw1b2"]
 [ext_resource type="Texture2D" uid="uid://c8lwjxgq116yd" path="res://art/Segments/Cannon.png" id="4_cydjh"]
 [ext_resource type="Script" path="res://scenes/ships/attachments/coloured_attachment.gd" id="5_tcjnp"]
 [ext_resource type="Texture2D" uid="uid://b12hwy6np7fha" path="res://art/Attachments/Cannon_Blue.png" id="6_o6i6i"]
 [ext_resource type="Texture2D" uid="uid://bbv1g24t0oit0" path="res://art/Attachments/Cannon_Red.png" id="7_ncvwf"]
 [ext_resource type="Texture2D" uid="uid://d1a5xwf4r40wg" path="res://art/Attachments/Cannon_Yellow.png" id="8_muqwg"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ki4ag"]
+resource_local_to_scene = true
+shader = ExtResource("3_nw1b2")
+shader_parameter/base_transparency = 1.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
+
 [node name="Cannon" instance=ExtResource("1_lnrul")]
 script = ExtResource("2_c3kim")
 radius = 10
 
 [node name="Sprite" parent="." index="0"]
+material = SubResource("ShaderMaterial_ki4ag")
 texture = ExtResource("3_8qxa5")
 
 [node name="RotationPoint" type="Node2D" parent="Sprite" index="0"]

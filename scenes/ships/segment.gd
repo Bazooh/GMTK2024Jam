@@ -5,9 +5,8 @@ signal deactivated
 signal activated
 signal broke
 signal repaired
+signal triggered
 signal life_changed(current: int, max: int)
-
-
 
 var grid_position := Vector2i.ZERO
 var level: Level
@@ -24,12 +23,12 @@ var ship: Ship:
 	set(value):
 		ship = value
 		if value == null:
-			sprite.frame = 0
+			sprite.frame_coords.x = 0
 		else:
-			sprite.frame = value.segment_frame
+			sprite.frame_coords.x = value.segment_frame
 		
 
-@onready var sprite: Sprite2D = $Sprite
+@onready var sprite: SpriteFlash = $Sprite
 
 @export var repair_percentage: float = 0.5
 
@@ -39,6 +38,13 @@ var ship: Ship:
 	set(value):
 		life = clamp(value, 0, max_life)
 		life_changed.emit(value, max_life)
+		
+		if life > max_life/2:
+			sprite.frame_coords.y = 0
+		elif life > 0:
+			sprite.frame_coords.y = 1
+		else:
+			sprite.frame_coords.y = 2
 
 
 func initialize(level_: Level, grid_position_: Vector2i) -> void:
@@ -78,11 +84,19 @@ func _trigger() -> void:
 
 func trigger() -> void:
 	if active:
+		triggered.emit()
 		_trigger()
 
+func take_damage(amount: int):
+	life -= amount
+	sprite.damage_flash()
 
+func heal(amount: int):
+	life += amount
+	sprite.heal_flash()
+	
 func _on_broke():
-	sprite.modulate.a = 0.5
+	sprite.modulate = Color.GRAY
 	broken = true
 
 
