@@ -15,9 +15,6 @@
 
 [node name="Level" type="Node2D" parent="." groups=["level"]]
 script = ExtResource("1_6p2av")
-movement_time = null
-segment_density = null
-enemy_density = null
 
 [node name="TickSpeed" type="Timer" parent="Level"]
 wait_time = 0.1
