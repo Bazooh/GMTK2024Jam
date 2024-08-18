@@ -24,15 +24,21 @@ func _trigger() -> void:
 	if segments.is_empty():
 		return
 	
-	var target: Segment = segments.pick_random()
+	var target: Segment = pick_target(segments)
 	shoot(target)
 
 
 func shoot(target: Segment) -> void:
+	if is_destroyed:
+		return
+		
 	var tween = get_tree().create_tween()
 
 	tween.tween_property(canon_rotation_point, "rotation", target.global_position.angle_to_point(global_position), 0.1)
 	await tween.finished
+	
+	if target == null:
+		return
 
 	var bullet: Bullet = bullet_prefab.instantiate()
 	bullet.global_position = global_position
@@ -43,3 +49,29 @@ func shoot(target: Segment) -> void:
 	get_tree().get_root().add_child(bullet)
 	
 	bullet.type = type
+
+func pick_target(possible_segments: Array) -> Segment:
+	
+	var highest_priority := 0
+	var highest_priority_segments = []
+	
+	for segment in possible_segments:
+		var priority: int = get_segment_priority(segment)
+		if  priority > highest_priority:
+			highest_priority_segments.clear()
+			highest_priority = priority
+			highest_priority_segments.push_back(segment)
+		elif priority == highest_priority:
+			highest_priority_segments.push_back(segment)
+			
+	return highest_priority_segments.pick_random()
+
+func get_segment_priority(segment: Segment) -> int:
+	if segment.broken:
+		return 0
+		
+	if segment.is_head:
+		return 2
+	
+	return 1
+	

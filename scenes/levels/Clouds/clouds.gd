@@ -10,8 +10,8 @@ var clouds: Array[Sprite2D] = []
 
 #spawn clouds within the bounds of the chunk
 func generate_clouds(chunk_start: Vector2i, chunk_size: int):
-	var x := 0
-	var y := 0
+	var x := 0.0
+	var y := 0.0
 	
 	while (x < chunk_size and y < chunk_size):
 		var texture : Texture = cloud_sprites.pick_random()

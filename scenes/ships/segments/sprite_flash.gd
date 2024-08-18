@@ -23,6 +23,7 @@ func flash(colour : Color):
 		
 		if flash_timer == null:
 			flash_timer = Timer.new()
+			flash_timer.autostart = true
 			add_child(flash_timer)
 			flash_timer.timeout.connect(stop_flashing)
 		flash_timer.start(flash_time)

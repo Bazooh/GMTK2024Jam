@@ -24,13 +24,13 @@ shader_parameter/flash_value = null
 [node name="Heal" instance=ExtResource("1_2maat")]
 script = ExtResource("2_87h71")
 radius = 2
-heal_amount = 3
-reload_time = 3.0
-max_life = 6
+heal_amount = 5
+reload_time = 2.5
 
 [node name="Sprite" parent="." index="0"]
 material = SubResource("ShaderMaterial_dwv72")
 texture = ExtResource("3_lgch5")
+damage_colour = Color(0.87, 0.25172, 0.1566, 1)
 
 [node name="Orbs" type="Sprite2D" parent="Sprite" index="0"]
 material = SubResource("ShaderMaterial_wpfqu")

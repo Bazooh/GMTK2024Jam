@@ -20,11 +20,11 @@ shader_parameter/flash_value = 0.0
 [node name="Cannon" instance=ExtResource("1_lnrul")]
 script = ExtResource("2_c3kim")
 radius = 10
+max_life = 6
 
 [node name="Sprite" parent="." index="0"]
 material = SubResource("ShaderMaterial_ki4ag")
 texture = ExtResource("3_8qxa5")
-damage_colour = Color(0.87, 0.25172, 0.1566, 1)
 
 [node name="RotationPoint" type="Node2D" parent="Sprite" index="0"]
 unique_name_in_owner = true

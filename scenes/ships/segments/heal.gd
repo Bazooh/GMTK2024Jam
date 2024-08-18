@@ -3,8 +3,8 @@ class_name Heal extends Segment
 signal on_heal
 
 @export var radius: int = 2
-@export var heal_amount: int = 3
-@export var reload_time: float = 3
+@export var heal_amount: int = 5
+@export var reload_time: float = 2.5
 
 @onready var reload_timer: Timer = $ReloadTimer
 
@@ -20,7 +20,7 @@ func _trigger() -> void:
 	if segments.is_empty() or !loaded:
 		return
 		
-	var target: Segment = Useful.sort(segments, func(seg: Segment) -> int: return seg.life)[0]
+	var target: Segment = Useful.sort(segments, func(seg: Segment) -> int: return (float(seg.life) / seg.max_life))[0]
 	if target.life < target.max_life:
 		target.heal(heal_amount)
 		on_heal.emit()

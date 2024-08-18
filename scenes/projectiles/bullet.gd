@@ -49,7 +49,7 @@ func _on_area_entered(area: Area2D) -> void:
 		queue_free()
 		return
 		
-	if area is Segment and area.ship != ship and not area.broken and area.ship != null:
+	if area is Segment and area.ship != ship and not area.is_destroyed and area.ship != null:
 		area.take_damage(damage)
 		disabled = true
 		hide()

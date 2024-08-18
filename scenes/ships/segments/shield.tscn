@@ -18,12 +18,12 @@ shader_parameter/flash_value = 0.0
 
 [node name="Shield" instance=ExtResource("1_v6y7e")]
 script = ExtResource("2_1ls5m")
-max_life = 6
 
 [node name="Barrier" parent="." index="0" instance=ExtResource("3_rtxph")]
 
 [node name="Sprite" parent="." index="1"]
 material = SubResource("ShaderMaterial_torfy")
+damage_colour = Color(0.87, 0.25172, 0.1566, 1)
 
 [node name="Shield" type="Sprite2D" parent="Sprite" index="0"]
 position = Vector2(0, -1)

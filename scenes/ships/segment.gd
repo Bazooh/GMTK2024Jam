@@ -5,19 +5,24 @@ signal deactivated
 signal activated
 signal broke
 signal repaired
+signal destroyed
 signal triggered
 signal life_changed(current: int, max: int)
 
 var grid_position := Vector2i.ZERO
 var level: Level
 
-var broken := false
+var is_destroyed
 
-var is_enemy_head := false
+var broken := false
+var is_head := false
+
+#used for detaching
+var marked := false
 
 var active: bool:
 	get:
-		return ship != null and not broken
+		return ship != null and not is_destroyed
 
 var ship: Ship:
 	set(value):
@@ -30,6 +35,8 @@ var ship: Ship:
 
 @onready var sprite: SpriteFlash = $Sprite
 
+@export var damage_percentage: float = 0.75
+@export var broken_percentage: float = 0.5
 @export var repair_percentage: float = 0.5
 
 
@@ -39,9 +46,9 @@ var ship: Ship:
 		life = clamp(value, 0, max_life)
 		life_changed.emit(value, max_life)
 		
-		if life > float(max_life)/2:
+		if life > float(max_life)*damage_percentage:
 			sprite.frame_coords.y = 0
-		elif life > 0:
+		elif life > float(max_life)*broken_percentage:
 			sprite.frame_coords.y = 1
 		else:
 			sprite.frame_coords.y = 2
@@ -64,6 +71,9 @@ func can_move(direction: Vector2i):
 	
 
 func move(direction: Vector2i, movement_time: float):
+	if is_destroyed:
+		return
+		
 	set_grid_position(grid_position + direction)
 	
 	var tween = get_tree().create_tween()
@@ -72,6 +82,9 @@ func move(direction: Vector2i, movement_time: float):
 
 func end_turn():
 	if life <= 0:
+		destroy()
+		
+	elif life <= float(max_life) * broken_percentage:
 		broke.emit()
 	
 	elif life > int(repair_percentage * max_life):
@@ -83,7 +96,7 @@ func _trigger() -> void:
 
 
 func trigger() -> void:
-	if active:
+	if active and not is_destroyed:
 		triggered.emit()
 		_trigger()
 
@@ -137,3 +150,14 @@ func deactivate() -> void:
 	ship = null
 	reparent(level.inactive_segments)
 	deactivated.emit()
+	
+func destroy() -> void:
+	level.remove_entity(grid_position, self)
+	if ship != null:
+		ship.remove_segment(self)
+	destroyed.emit()
+	hide()
+	is_destroyed = true
+	monitoring = false
+	monitorable = false
+	queue_free()

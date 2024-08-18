@@ -57,7 +57,6 @@ func remove_entity(pos: Vector2i, entity: Entity = null) -> void:
 	
 	grid.erase(pos)
 
-
 func get_entity(pos: Vector2i) -> Entity:
 	if grid.has(pos):
 		if grid[pos] == null:
