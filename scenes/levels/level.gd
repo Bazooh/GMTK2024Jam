@@ -25,6 +25,10 @@ const chunk_size: int = 16
 @export var enemy_starting_segments : int = 1
 @export var enemy_extra_segment_chance: float = 0.5
 
+@export var map_size: int = 10
+@export var n_ships: int = 99
+@export var infinite_map := false
+
 var grid := {}
 var ships: Array[Ship] = []
 var chunk_generated := Set.new()
@@ -38,6 +42,10 @@ func _input(event: InputEvent) -> void:
 func _ready() -> void:
 	for inactive_segment in inactive_segments.get_children():
 		inactive_segment.initialize(self, inactive_segment.global_position / tile_size)
+	
+	if not infinite_map:
+		generate_map()
+
 
 func walkable(ship: Ship, pos: Vector2i) -> bool:
 	var entity: Entity = get_entity(pos)
@@ -59,14 +67,16 @@ func remove_entity(pos: Vector2i, entity: Entity = null) -> void:
 	
 	grid.erase(pos)
 
+
 func get_entity(pos: Vector2i) -> Entity:
-	if grid.has(pos):
-		if grid[pos] == null:
-			grid.erase(pos)
-			return
-			
-		return grid[pos]
-	return null
+	if not grid.has(pos):
+		return null
+	
+	if grid[pos] == null:
+		grid.erase(pos)
+		return null
+	
+	return grid[pos]
 
 
 func get_adjacent_unowned_segments(pos: Vector2i) -> Array:
@@ -140,7 +150,7 @@ func add_random_segment(pos: Vector2i) -> void:
 	new_segment.initialize(self, pos)
 
 
-func generater_chunk(chunk_id: Vector2i) -> void:
+func generater_chunk(chunk_id: Vector2i, ship := true) -> void:
 	if chunk_generated.has(chunk_id):
 		return
 
@@ -150,7 +160,7 @@ func generater_chunk(chunk_id: Vector2i) -> void:
 			if not grid.has(pos): 
 				if randf() < segment_density:
 					add_random_segment(pos)
-				elif randf() < enemy_density:
+				elif ship and randf() < enemy_density:
 					generate_ship(pos)
 			
 	
@@ -164,8 +174,29 @@ func get_chunk_id(pos: Vector2i) -> Vector2i:
 
 
 func generate_chunks_around(pos: Vector2i, radius: int) -> void:
+	if not infinite_map:
+		return
+
 	var chunk_id: Vector2i = get_chunk_id(pos)
 	
 	for x in range(-radius, radius + 1):
 		for y in range(-radius, radius + 1):
 			generater_chunk(chunk_id + Vector2i(x, y))
+
+
+func get_random_free_pos() -> Vector2i:
+	var size: int = map_size * chunk_size
+
+	var pos := Vector2i(randi_range(-size, size), randi_range(-size, size))
+	while get_entity(pos) != null:
+		pos = Vector2i(randi_range(-size, size), randi_range(-size, size))
+	return pos
+
+
+func generate_map() -> void:
+	for x in range(-map_size, map_size):
+		for y in range(-map_size, map_size):
+			generater_chunk(Vector2i(x, y), false)
+	
+	for i in range(n_ships):
+		generate_ship(get_random_free_pos())
