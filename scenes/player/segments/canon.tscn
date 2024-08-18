@@ -8,11 +8,9 @@
 [node name="Cannon" instance=ExtResource("1_71ys3")]
 script = ExtResource("2_cmu0o")
 radius = 10
-active_sprite = null
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource("3_4gblo")
-hframes = 3
 
 [node name="RotationPoint" type="Node2D" parent="Sprite" index="0"]
 unique_name_in_owner = true

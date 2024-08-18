@@ -7,12 +7,10 @@
 
 [node name="Heal" instance=ExtResource("1_2maat")]
 script = ExtResource("2_87h71")
-radius = 10
-active_sprite = null
+radius = 2
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource("3_lgch5")
-hframes = 3
 
 [node name="Orbs" type="Sprite2D" parent="Sprite" index="0"]
 position = Vector2(0, -7)

@@ -1,18 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://ccykutr8vdp1t"]
+[gd_scene load_steps=4 format=3 uid="uid://ccykutr8vdp1t"]
 
 [ext_resource type="Script" path="res://scenes/player/segment.gd" id="1_fah63"]
-[ext_resource type="Texture2D" uid="uid://c87ypmus74b54" path="res://art/Temp/Temp_Segment.png" id="2_3hivo"]
-[ext_resource type="Texture2D" uid="uid://dk33nkpoebbhb" path="res://art/Temp/Temp_Segment_Disabled.png" id="2_32lhx"]
+[ext_resource type="Texture2D" uid="uid://dibx6kclbxu24" path="res://art/Segments/Segments.png" id="2_1hrld"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2md86"]
 size = Vector2(14, 14)
 
 [node name="Segment" type="Area2D"]
 script = ExtResource("1_fah63")
-active_sprite = ExtResource("2_3hivo")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_32lhx")
+texture = ExtResource("2_1hrld")
+hframes = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_2md86")

@@ -5,3 +5,4 @@
 
 [node name="Enemy" instance=ExtResource("1_ca2gd")]
 script = ExtResource("2_n30ew")
+segment_frame = 2

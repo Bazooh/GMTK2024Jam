@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cnqvpdq56tvmw"]
+[gd_scene load_steps=5 format=3 uid="uid://cnqvpdq56tvmw"]
 
 [ext_resource type="Script" path="res://scenes/levels/level.gd" id="1_6p2av"]
 [ext_resource type="PackedScene" uid="uid://7r010xcu8eje" path="res://scenes/player/player.tscn" id="2_cgfn2"]
 [ext_resource type="PackedScene" uid="uid://do881jw57cn6h" path="res://scenes/player/segments/canon.tscn" id="4_uevfv"]
-[ext_resource type="PackedScene" uid="uid://bsdjcxeu1uct4" path="res://scenes/player/segments/heal.tscn" id="6_g5n1t"]
 [ext_resource type="PackedScene" uid="uid://bxtqus3vp2ncy" path="res://scenes/player/enemy.tscn" id="6_im68j"]
 
 [node name="TestLevel" type="Node2D"]
@@ -22,10 +21,6 @@ unique_name_in_owner = true
 
 [node name="Player" parent="Level" instance=ExtResource("2_cgfn2")]
 position = Vector2(80, 80)
-chunk_radius = 2
-
-[node name="Segment" parent="Level/Player" instance=ExtResource("6_g5n1t")]
-position = Vector2(-16, 0)
 
 [node name="Enemy" parent="Level" instance=ExtResource("6_im68j")]
 position = Vector2(80, 144)

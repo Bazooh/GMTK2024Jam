@@ -4,20 +4,31 @@ extends Entity
 
 signal broke
 signal repaired
+signal life_changed(current: int, max: int)
+signal deactivated
 
 
 var grid_position := Vector2i.ZERO
 var level: Level
-var ship: Ship
+
 var broken := false
+
+var is_enemy_head := false
 
 var active: bool:
 	get:
 		return ship != null and not broken
 
+var ship: Ship:
+	set(value):
+		ship = value
+		if value == null:
+			sprite.frame = 0
+		else:
+			sprite.frame = value.segment_frame
+		
 
 @onready var sprite: Sprite2D = $Sprite
-@export var active_sprite: Texture2D
 
 @export var repair_percentage: float = 0.5
 
@@ -25,7 +36,8 @@ var active: bool:
 @export var max_life: int = 10
 @onready var life: int = max_life:
 	set(value):
-		life = clamp(value, -INF, max_life)
+		life = clamp(value, 0, max_life)
+		life_changed.emit(value, max_life)
 
 
 func initialize(level_: Level, grid_position_: Vector2i) -> void:
@@ -105,3 +117,4 @@ func get_entity_in_radius(radius: int, filter: Callable = func(_entity: Entity) 
 func deactivate() -> void:
 	ship = null
 	reparent(level.inactive_segments)
+	deactivated.emit()

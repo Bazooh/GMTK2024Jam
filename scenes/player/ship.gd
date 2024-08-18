@@ -9,6 +9,8 @@ var segments: Array[Segment] = []
 
 var head: Segment
 
+@export var segment_frame = 0
+
 
 func _ready() -> void:
 	died.connect(_on_death)
@@ -50,8 +52,12 @@ func end_turn() -> void:
 		if is_instance_valid(segment):
 			segment.end_turn()
 	
-	if segments.all(func(seg: Segment) -> bool: return (not is_instance_valid(seg)) or seg.broken):
+	#ship life depends on head for now
+	if head.broken:
 		died.emit()
+		
+	#if segments.all(func(seg: Segment) -> bool: return (not is_instance_valid(seg)) or seg.broken):
+		#died.emit()
 
 
 func _move() -> void:
