@@ -48,8 +48,11 @@ func _ready() -> void:
 
 
 func walkable(ship: Ship, pos: Vector2i) -> bool:
+	var size: int = map_size * chunk_size
+	if pos.x < -size or pos.x >= size or pos.y < -size or pos.y >= size:
+		return false
+
 	var entity: Entity = get_entity(pos)
-	
 	return entity == null or (entity is Segment and entity.ship == ship)
 
 
