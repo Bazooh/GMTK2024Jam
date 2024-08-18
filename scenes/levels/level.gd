@@ -22,6 +22,8 @@ const chunk_size: int = 16
 @export var movement_time: float = 0.1
 @export var segment_density: float = 0.002
 @export var enemy_density: float = 0.002
+@export var enemy_starting_segments : int = 1
+@export var enemy_extra_segment_chance: float = 0.5
 
 var grid := {}
 var ships: Array[Ship] = []
@@ -112,14 +114,24 @@ func generate_ship(pos: Vector2i) -> void:
 	ship.global_position = pos * tile_size
 	ships_node.add_child.call_deferred(ship)
 	
-	#start the ship with one segment for testing
 	var free_spots = get_adjacent_free_spots(pos)
-	if len(free_spots) > 0:
+	var generated_segments = 0
+	
+	if enemy_extra_segment_chance >= 0.9:
+		enemy_extra_segment_chance = 0.9
+	
+	while (len(free_spots) > 0 and (generated_segments < enemy_starting_segments or randf() < enemy_extra_segment_chance)):
 		var segment_pos : Vector2i = free_spots.pick_random()
+		
 		var new_segment: Segment = segments_prefab.pick_random().instantiate()
 		new_segment.global_position = segment_pos * tile_size
 		ship.add_child.call_deferred(new_segment)
 		new_segment.initialize(self, segment_pos)
+		
+		generated_segments += 1
+		free_spots.erase(segment_pos)
+		free_spots += get_adjacent_free_spots(segment_pos)
+	
 	
 
 func add_random_segment(pos: Vector2i) -> void:

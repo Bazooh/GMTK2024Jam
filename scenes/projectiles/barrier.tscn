@@ -35,5 +35,6 @@ yellow_texture = ExtResource("4_42too")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_dqt6y")
 
-[connection signal="on_block" from="." to="Sprite2D" method="white_flash"]
+[node name="ShowTimer" type="Timer" parent="."]
+
 [connection signal="on_set_type" from="." to="Sprite2D" method="_set_type"]
