@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3 uid="uid://cw1cph8yfu7fc"]
+
+[ext_resource type="Texture2D" uid="uid://da0jb5lalu6e3" path="res://art/Minimap/Enemy.png" id="1_mbkny"]
+
+[sub_resource type="Animation" id="Animation_iymek"]
+resource_name = "Appear"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0.2, 0.2)]
+}
+
+[sub_resource type="Animation" id="Animation_gxgw7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bkn3o"]
+_data = {
+"Appear": SubResource("Animation_iymek"),
+"RESET": SubResource("Animation_gxgw7")
+}
+
+[node name="Poison" type="Sprite2D"]
+texture = ExtResource("1_mbkny")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_bkn3o")
+}
+autoplay = "Appear"

@@ -95,6 +95,9 @@ func move(direction: Vector2i, movement_time: float):
 func end_turn():
 	if is_destroyed:
 		return
+	
+	if grid_position.x < -level.poison_distance or grid_position.x >= level.poison_distance or grid_position.y < -level.poison_distance or grid_position.y >= level.poison_distance:
+		take_damage(1)
 		
 	if life <= 0:
 		destroy()

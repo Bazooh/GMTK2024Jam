@@ -67,6 +67,9 @@ script = ExtResource("1_6p2av")
 wait_time = 0.1
 autostart = true
 
+[node name="Poison" type="Timer" parent="Level"]
+autostart = true
+
 [node name="InactiveSegments" type="Node2D" parent="Level"]
 unique_name_in_owner = true
 
@@ -262,5 +265,6 @@ text = "Restart"
 
 [connection signal="ships_updated" from="Level" to="CanvasLayer/EnemiesRemaining" method="update_ship_label"]
 [connection signal="timeout" from="Level/TickSpeed" to="Level" method="_on_each_tick"]
+[connection signal="timeout" from="Level/Poison" to="Level" method="map_shrink"]
 [connection signal="pressed" from="CanvasLayer/WinScreen/Button" to="Level" method="restart"]
 [connection signal="pressed" from="CanvasLayer/LoseScreen/Button" to="Level" method="restart"]

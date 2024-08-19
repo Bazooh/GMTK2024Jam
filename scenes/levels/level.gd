@@ -13,6 +13,9 @@ const segments_prefab: Array[PackedScene] = [
 
 const enemy_prebab: PackedScene = preload("res://scenes/ships/enemy.tscn")
 
+const poison_prefab: PackedScene = preload("res://scenes/levels/poison.tscn")
+const wall_prefab: PackedScene = preload("res://scenes/levels/wall.tscn")
+
 const tile_size: float = 16.0
 const chunk_size: int = 16
 
@@ -43,12 +46,17 @@ var time = 0
 
 var player: Player
 
+@onready var poison_distance: int = map_size * chunk_size + 1
+
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("restart"):
 		restart()
 
+
 func restart():
 	get_tree().reload_current_scene()
+
 
 func _ready() -> void:
 	get_tree().root.get_viewport().set_canvas_cull_mask_bit(1, false)
@@ -61,8 +69,25 @@ func _ready() -> void:
 	
 	time = 0
 
+
 func _process(delta):
 	time += delta
+
+
+func place_walls() -> void:
+	for i in range(-poison_distance, poison_distance):
+		var poses: Array[Vector2i] = [
+			Vector2i(i, -poison_distance),
+			Vector2i(i, poison_distance - 1),
+			Vector2i(-poison_distance, i),
+			Vector2i(poison_distance - 1, i)
+		]
+
+		for pos: Vector2i in poses:
+			var wall: Node2D = wall_prefab.instantiate()
+			wall.global_position = pos * tile_size
+			add_child.call_deferred(wall)
+
 
 func walkable(ship: Ship, pos: Vector2i) -> bool:
 	var size: int = map_size * chunk_size
@@ -227,6 +252,8 @@ func generate_map() -> void:
 	for i in range(n_ships):
 		generate_ship(get_random_free_pos())
 	
+	place_walls()
+	
 	ships_updated.emit(n_ships)
 
 
@@ -253,3 +280,20 @@ func win_game() -> void:
 func lose_game() -> void:
 	game_over = true
 	lose_screen.open(n_ships + 1)
+
+
+func map_shrink() -> void:
+	poison_distance -= 1
+
+	for i in range(-poison_distance, poison_distance):
+		var poses: Array[Vector2i] = [
+			Vector2i(i, -poison_distance),
+			Vector2i(i, poison_distance - 1),
+			Vector2i(-poison_distance, i),
+			Vector2i(poison_distance - 1, i)
+		]
+
+		for pos: Vector2i in poses:
+			var poison: Node2D = poison_prefab.instantiate()
+			poison.global_position = pos * tile_size
+			add_child.call_deferred(poison)
