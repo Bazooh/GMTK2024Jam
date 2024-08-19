@@ -96,7 +96,7 @@ func end_turn():
 	if is_destroyed:
 		return
 	
-	if grid_position.x < -level.poison_distance or grid_position.x >= level.poison_distance or grid_position.y < -level.poison_distance or grid_position.y >= level.poison_distance:
+	if level.is_inside_poison(grid_position):
 		take_damage(1)
 		
 	if life <= 0:

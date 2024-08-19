@@ -43,25 +43,26 @@ func get_direction() -> Vector2i:
 	var center_vector = -head.global_position / level.tile_size
 	var desirability: Vector2 = go_toward_center_desirability * center_vector / pow(center_vector.length_squared(), 1.5)
 
-	for x in range(-radar_radius, radar_radius + 1):
-		for y in range(-radar_radius, radar_radius + 1):
-			var chunk_id: Vector2i = current_chunk_id + Vector2i(x, y)
+	if not level.is_inside_poison(head.grid_position):
+		for x in range(-radar_radius, radar_radius + 1):
+			for y in range(-radar_radius, radar_radius + 1):
+				var chunk_id: Vector2i = current_chunk_id + Vector2i(x, y)
 
-			if not level.chunks.has(chunk_id):
-				continue
-
-			for ship: Ship in level.chunks[chunk_id].ship:
-				if ship == self:
+				if not level.chunks.has(chunk_id):
 					continue
-				
-				var desirability_sign: int = -1 if ship.segments.size() > size else 1
-				var vector: Vector2 = (ship.head.global_position - head.global_position) / level.tile_size
-				desirability += desirability_sign * vector * avoid_big_desirability / pow(vector.length_squared(), 1.5)
 
-			for segment: Segment in level.chunks[chunk_id].segment:
-				if segment == null: continue
-				var vector: Vector2 = segment.global_position - head.global_position
-				desirability += vector * go_toward_segment_desirability / pow(vector.length_squared(), 1.5)
+				for ship: Ship in level.chunks[chunk_id].ship:
+					if ship == self:
+						continue
+					
+					var desirability_sign: int = -1 if ship.segments.size() > size else 1
+					var vector: Vector2 = (ship.head.global_position - head.global_position) / level.tile_size
+					desirability += desirability_sign * vector * avoid_big_desirability / pow(vector.length_squared(), 1.5)
+
+				for segment: Segment in level.chunks[chunk_id].segment:
+					if segment == null: continue
+					var vector: Vector2 = segment.global_position - head.global_position
+					desirability += vector * go_toward_segment_desirability / pow(vector.length_squared(), 1.5)
 	
 	if desirability.is_zero_approx():
 		return level.DIRECTIONS.pick_random()

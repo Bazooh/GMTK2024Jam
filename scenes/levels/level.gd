@@ -297,3 +297,7 @@ func map_shrink() -> void:
 			var poison: Node2D = poison_prefab.instantiate()
 			poison.global_position = pos * tile_size
 			add_child.call_deferred(poison)
+
+
+func is_inside_poison(pos: Vector2i) -> bool:
+	return pos.x < -poison_distance or pos.x >= poison_distance or pos.y < -poison_distance or pos.y >= poison_distance
