@@ -1,6 +1,7 @@
 class_name Barrier extends Area2D
 
 signal on_set_type(type: Bullet.Bullet_Type)
+signal blocked
 
 var ship : Ship
 var sprite_show_time := 0.5
@@ -27,6 +28,7 @@ func block_bullet():
 	sprite_2d.show()
 	sprite_2d.white_flash()
 	show_timer.start(sprite_show_time)
+	blocked.emit()
 
 func hide_shield():
 	sprite_2d.hide()

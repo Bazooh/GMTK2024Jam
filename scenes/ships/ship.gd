@@ -41,7 +41,7 @@ func death() -> void:
 
 	if head != null:
 		head.is_head = false
-	level.ships.erase(self)
+	level.remove_ship(self)
 
 	died.emit()
 	queue_free()

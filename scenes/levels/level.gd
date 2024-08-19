@@ -1,6 +1,7 @@
 class_name Level
 extends Node2D
 
+signal ships_updated(num_ships)
 
 const DIRECTIONS := [Vector2i.UP, Vector2i.RIGHT, Vector2i.LEFT, Vector2i.DOWN]
 
@@ -18,6 +19,9 @@ const chunk_size: int = 16
 @onready var inactive_segments: Node2D = %InactiveSegments
 @onready var ships_node: Node2D = $Ships
 @onready var clouds: Clouds = $"../Clouds"
+@onready var win_screen: WinScreen = %WinScreen
+@onready var lose_screen: LoseScreen = %LoseScreen
+
 
 @export var movement_time: float = 0.1
 @export var segment_density: float = 0.002
@@ -33,11 +37,17 @@ var grid := {}
 var ships: Array[Ship] = []
 var chunk_generated := Set.new()
 
+var game_over : bool
+var time = 0
+
+var player: Player
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("restart"):
-		get_tree().reload_current_scene()
+		restart()
 
+func restart():
+	get_tree().reload_current_scene()
 
 func _ready() -> void:
 	get_tree().root.get_viewport().set_canvas_cull_mask_bit(1, false)
@@ -47,7 +57,11 @@ func _ready() -> void:
 	
 	if not infinite_map:
 		generate_map()
+	
+	time = 0
 
+func _process(delta):
+	time += delta
 
 func walkable(ship: Ship, pos: Vector2i) -> bool:
 	var size: int = map_size * chunk_size
@@ -65,7 +79,9 @@ func set_entity(pos: Vector2i, entity: Entity, set_pos := true) -> void:
 
 
 func remove_entity(pos: Vector2i, entity: Entity = null) -> void:
-	assert(grid.has(pos), "Trying to remove entity that doesn't exist")
+	if !grid.has(pos):
+		push_error("Trying to remove entity that doesn't exist!")
+		return
 
 	if entity != null and grid[pos] != entity:
 		return
@@ -205,3 +221,25 @@ func generate_map() -> void:
 	
 	for i in range(n_ships):
 		generate_ship(get_random_free_pos())
+	
+	ships_updated.emit(n_ships)
+
+	
+func remove_ship(ship: Ship):
+	ships.erase(ship)
+	if ship is Player and not game_over:
+		lose_game()
+		return
+	n_ships -= 1
+	ships_updated.emit(n_ships)
+	if not game_over and n_ships == 0:
+		win_game()
+		return
+
+func win_game():
+	game_over = true
+	win_screen.open(time)
+
+func lose_game():
+	game_over = true
+	lose_screen.open(n_ships + 1)

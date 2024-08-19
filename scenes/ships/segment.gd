@@ -83,13 +83,16 @@ func move(direction: Vector2i, movement_time: float):
 
 
 func end_turn():
+	if is_destroyed:
+		return
+		
 	if life <= 0:
 		destroy()
 		
-	elif life <= float(max_life) * broken_percentage:
+	elif not broken and life <= float(max_life) * broken_percentage:
 		broke.emit()
 	
-	elif life > int(repair_percentage * max_life):
+	elif broken and life > int(repair_percentage * max_life):
 		repaired.emit()
 
 

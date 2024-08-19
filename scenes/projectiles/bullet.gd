@@ -9,6 +9,9 @@ var disabled := false
 
 @export var speed: float = 200
 @export var damage: int = 1
+@export var lifetime: float = 25
+
+var time : float
 
 @export_group("Colour textures")
 @export var blue_texture: Texture
@@ -35,7 +38,10 @@ func _process(delta: float) -> void:
 		return
 		
 	global_position += direction * speed * delta
-
+	time += delta
+	
+	if time >= lifetime:
+		destroy()
 
 func _on_area_entered(area: Area2D) -> void:
 	
@@ -43,15 +49,15 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 		
 	if area is Barrier and area.ship != ship and area.type == type:
-		disabled = true
-		hide()
 		area.block_bullet()
-		queue_free()
+		destroy()
 		return
 		
 	if area is Segment and area.ship != ship and not area.is_destroyed and area.ship != null:
 		area.take_damage(damage)
-		disabled = true
-		hide()
-		queue_free()
+		destroy()
 	
+func destroy():
+	disabled = true
+	hide()
+	queue_free()

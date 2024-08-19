@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://7r010xcu8eje"]
+[gd_scene load_steps=10 format=3 uid="uid://7r010xcu8eje"]
 
 [ext_resource type="Script" path="res://scenes/ships/player.gd" id="1_42mvu"]
 [ext_resource type="PackedScene" uid="uid://b61o18jy2hq5y" path="res://scenes/ships/ship.tscn" id="1_hb7n5"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://coll1mtsis7fr" path="res://art/Minimap/Arrow.png" id="5_8faa4"]
 [ext_resource type="Script" path="res://scenes/ui/minimap.gd" id="5_jq1st"]
 [ext_resource type="AudioStream" uid="uid://bpvtijg0kge0l" path="res://audio/snd_lose.wav" id="6_4u8li"]
+[ext_resource type="Texture2D" uid="uid://15yra4v7qb0a" path="res://art/UI/Box.png" id="7_e04ne"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hai56"]
 resource_local_to_scene = true
@@ -19,6 +20,7 @@ shader_parameter/flash_value = 0.0
 script = ExtResource("1_42mvu")
 chunk_radius = 2
 minimap_stamp = NodePath("Head/MinimapStamp")
+minimap_size = 350.0
 segment_frame = 1
 
 [node name="Sprite" parent="Head" index="0"]
@@ -26,7 +28,6 @@ material = SubResource("ShaderMaterial_hai56")
 texture = ExtResource("3_fo3l3")
 
 [node name="MinimapStamp" parent="Head" index="2"]
-visible = false
 modulate = Color(0, 1, 0, 1)
 rotation = 0.785398
 texture = ExtResource("5_8faa4")
@@ -49,8 +50,10 @@ zoom = Vector2(2, 2)
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
+offset_left = -200.0
 offset_top = 50.0
 offset_right = -50.0
+offset_bottom = 200.0
 grow_horizontal = 0
 
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer" index="0"]
@@ -62,5 +65,21 @@ script = ExtResource("5_jq1st")
 
 [node name="Camera2D" type="Camera2D" parent="CanvasLayer/SubViewportContainer/SubViewport" index="0"]
 zoom = Vector2(0.2, 0.2)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer" index="1"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_top = 50.0
+offset_right = -50.0
+offset_bottom = 200.0
+grow_horizontal = 0
+texture = ExtResource("7_e04ne")
+draw_center = false
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
 
 [editable path="Head"]

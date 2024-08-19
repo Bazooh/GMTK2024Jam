@@ -7,6 +7,7 @@ var is_moving := false
 @export var chunk_radius: int = 2
 
 @export var minimap_stamp: Sprite2D
+@export var minimap_size: float = 350
 
 
 func _ready() -> void:
@@ -18,8 +19,10 @@ func _ready() -> void:
 	camera.reparent(head)
 	head.sprite.frame = 1
 
+	level.player = self
 	level.generate_chunks_around(head.grid_position, chunk_radius)
 
+	#glitching(?) so turned off temporarily
 	#size_changed.connect(_on_size_changed)
 	#size_changed.emit()
 
