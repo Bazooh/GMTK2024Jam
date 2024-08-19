@@ -74,7 +74,6 @@ unique_name_in_owner = true
 
 [node name="Player" parent="Level/Ships" instance=ExtResource("2_cgfn2")]
 position = Vector2(80, 80)
-minimap_size = 350.0
 
 [node name="Clouds" type="Node2D" parent="."]
 script = ExtResource("5_bbkpp")
