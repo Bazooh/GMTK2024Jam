@@ -17,6 +17,10 @@ config/features=PackedStringArray("4.3", "GL Compatibility")
 boot_splash/show_image=false
 config/icon="res://icon.svg"
 
+[global_group]
+
+Head=""
+
 [input]
 
 up={

@@ -15,7 +15,7 @@ shader_parameter/flash_value = 0.0
 [node name="Ship" type="Node2D"]
 script = ExtResource("1_n6xoh")
 
-[node name="Head" parent="." instance=ExtResource("2_d2pxl")]
+[node name="Head" parent="." groups=["Head"] instance=ExtResource("2_d2pxl")]
 
 [node name="Sprite" parent="Head" index="0"]
 material = SubResource("ShaderMaterial_pa1c4")
