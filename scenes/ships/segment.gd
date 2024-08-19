@@ -56,7 +56,17 @@ var ship: Ship:
 			sprite.frame_coords.y = 2
 
 
+func _ready() -> void:
+	super._ready()
+
+	if is_in_group("Head"):
+		is_head = true
+
+
 func initialize(level_: Level, grid_position_: Vector2i) -> void:
+	if level != null:
+		return
+
 	level = level_
 	grid_position = grid_position_
 	level.set_entity(grid_position, self)
@@ -105,16 +115,19 @@ func trigger() -> void:
 		triggered.emit()
 		_trigger()
 
+
 func take_damage(amount: int):
 	life -= amount
 	sprite.damage_flash()
 	damaged.emit()
 
+
 func heal(amount: int):
 	life += amount
 	sprite.heal_flash()
 	healed.emit()
-	
+
+
 func _on_broke():
 	sprite.modulate = Color.GRAY
 	broken = true
@@ -148,20 +161,30 @@ func get_entity_in_radius(radius: int, filter: Callable = func(_entity: Entity) 
 	
 	return entities
 
+
 func activate(ship_: Ship) -> void:
 	ship = ship_
 	reparent(ship_)
+	level.chunks[level.get_chunk_id(grid_position)].segment.erase(self)
 	activated.emit()
-	
+
+
 func deactivate() -> void:
 	ship = null
 	reparent(level.inactive_segments)
+	level.chunks[level.get_chunk_id(grid_position)].segment.add(self)
 	deactivated.emit()
-	
+
+
 func destroy() -> void:
 	level.remove_entity(grid_position, self)
-	if ship != null:
+	
+	level.chunks[level.get_chunk_id(grid_position)].segment.erase(self)
+	if ship == null:
+		pass
+	else:
 		ship.remove_segment(self)
+	
 	destroyed.emit()
 	hide()
 	is_destroyed = true

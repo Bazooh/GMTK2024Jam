@@ -77,4 +77,6 @@ func _iter_next(_arg: Variant):
 
 
 func _iter_get(_arg: Variant):
+	if not is_instance_valid(temp_keys[i]):
+		return null
 	return temp_keys[i]

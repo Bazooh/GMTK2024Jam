@@ -37,14 +37,14 @@ func _ready() -> void:
 
 func death() -> void:
 	for segment in segments:
-		segment.deactivate()
+		segment.destroy()
 
 	if head != null:
 		head.is_head = false
 	level.remove_ship(self)
 
 	died.emit()
-	queue_free()
+	# queue_free()
 
 
 func trigger() -> void:
@@ -68,17 +68,25 @@ func _move() -> void:
 
 
 func move(direction: Vector2i) -> void:
+	var head_chunk = level.get_chunk_id(head.grid_position)
+
+	if head.grid_position.x >= 160 or head.grid_position.y >= 160:
+		breakpoint
+
 	if can_move(direction):
 		for segment in segments:
 			segment.move(direction, level.movement_time)
+	
+	var new_head_chunk = level.get_chunk_id(head.grid_position)
+	if new_head_chunk != head_chunk:
+		level.chunks[head_chunk].ship.erase(self)
+		level.chunks[new_head_chunk].ship.add(self)
+
 	attach_adjacent_segments()
 
 
 func can_move(direction: Vector2i) -> bool:
-	for segment in segments:
-		if not segment.can_move(direction):
-			return false
-	return true
+	return segments.all(func(segment: Segment) -> bool: return segment.can_move(direction))
 
 
 func attach_adjacent_segments() -> void:

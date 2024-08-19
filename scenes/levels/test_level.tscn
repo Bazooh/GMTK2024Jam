@@ -73,7 +73,6 @@ unique_name_in_owner = true
 [node name="Ships" type="Node2D" parent="Level"]
 
 [node name="Player" parent="Level/Ships" instance=ExtResource("2_cgfn2")]
-position = Vector2(80, 80)
 
 [node name="Clouds" type="Node2D" parent="."]
 script = ExtResource("5_bbkpp")

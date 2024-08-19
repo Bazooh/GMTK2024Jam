@@ -34,6 +34,7 @@ const chunk_size: int = 16
 @export var infinite_map := false
 
 var grid := {}
+var chunks := {}
 var ships: Array[Ship] = []
 var chunk_generated := Set.new()
 
@@ -115,7 +116,7 @@ func get_adjacent_free_spots(pos: Vector2i) -> Array:
 
 	for direction: Vector2i in DIRECTIONS:
 		var new_pos: Vector2i = pos + direction
-		if get_entity(new_pos) == null:
+		if walkable(null, new_pos):
 			search.append(new_pos)
 
 	return search
@@ -140,9 +141,12 @@ func _on_each_tick() -> void:
 	turn_changed()
 
 
-func generate_ship(pos: Vector2i) -> void:
+func generate_ship(pos: Vector2i) -> Ship:
 	var ship: Ship = enemy_prebab.instantiate()
-	ship.global_position = pos * tile_size
+
+	chunks[get_chunk_id(pos)].ship.add(ship)
+	
+	ship.get_node("Head").initialize(self, pos)
 	ships_node.add_child.call_deferred(ship)
 	
 	var free_spots = get_adjacent_free_spots(pos)
@@ -163,29 +167,30 @@ func generate_ship(pos: Vector2i) -> void:
 		free_spots.erase(segment_pos)
 		free_spots += get_adjacent_free_spots(segment_pos)
 	
+	return ship
+	
 	
 
-func add_random_segment(pos: Vector2i) -> void:
+func generate_segment(pos: Vector2i) -> Segment:
 	var new_segment: Segment = segments_prefab.pick_random().instantiate()
 	inactive_segments.add_child(new_segment)
 	new_segment.initialize(self, pos)
+	return new_segment
 
 
-func generater_chunk(chunk_id: Vector2i, ship := true) -> void:
-	if chunk_generated.has(chunk_id):
+func generater_chunk(chunk_id: Vector2i) -> void:
+	if chunks.has(chunk_id):
 		return
+	
+	chunks[chunk_id] = {"ship": Set.new(), "segment": Set.new()}
 
 	for x in range(chunk_id.x * chunk_size, (chunk_id.x + 1) * chunk_size):
 		for y in range(chunk_id.y * chunk_size, (chunk_id.y + 1) * chunk_size):
 			var pos := Vector2i(x, y)
+
 			if not grid.has(pos): 
 				if randf() < segment_density:
-					add_random_segment(pos)
-				elif ship and randf() < enemy_density:
-					generate_ship(pos)
-			
-	
-	chunk_generated.add(chunk_id)
+					chunks[chunk_id].segment.add(generate_segment(pos))
 	
 	clouds.generate_clouds(chunk_id * chunk_size * tile_size, chunk_size * tile_size)
 
@@ -208,38 +213,43 @@ func generate_chunks_around(pos: Vector2i, radius: int) -> void:
 func get_random_free_pos() -> Vector2i:
 	var size: int = map_size * chunk_size
 
-	var pos := Vector2i(randi_range(-size, size), randi_range(-size, size))
+	var pos := Vector2i(randi_range(-size, size - 1), randi_range(-size, size - 1))
 	while get_entity(pos) != null:
-		pos = Vector2i(randi_range(-size, size), randi_range(-size, size))
+		pos = Vector2i(randi_range(-size, size - 1), randi_range(-size, size - 1))
 	return pos
 
 
 func generate_map() -> void:
 	for x in range(-map_size, map_size):
 		for y in range(-map_size, map_size):
-			generater_chunk(Vector2i(x, y), false)
+			generater_chunk(Vector2i(x, y))
 	
 	for i in range(n_ships):
 		generate_ship(get_random_free_pos())
 	
 	ships_updated.emit(n_ships)
 
-	
-func remove_ship(ship: Ship):
+
+func remove_ship(ship: Ship) -> void:
 	ships.erase(ship)
+	chunks[get_chunk_id(ship.head.grid_position)].ship.erase(ship)
+
 	if ship is Player and not game_over:
 		lose_game()
 		return
+	
 	n_ships -= 1
 	ships_updated.emit(n_ships)
+
 	if not game_over and n_ships == 0:
 		win_game()
-		return
 
-func win_game():
+
+func win_game() -> void:
 	game_over = true
 	win_screen.open(time)
 
-func lose_game():
+
+func lose_game() -> void:
 	game_over = true
 	lose_screen.open(n_ships + 1)
