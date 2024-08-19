@@ -1,6 +1,7 @@
 class_name Cannon extends Segment
 
 signal on_set_type(type: Bullet.Bullet_Type)
+signal shot
 
 const bullet_prefab: PackedScene = preload("res://scenes/projectiles/bullet.tscn")
 
@@ -47,6 +48,8 @@ func shoot(target: Segment) -> void:
 	bullet.ship = ship
 
 	get_tree().get_root().add_child(bullet)
+	
+	shot.emit()
 	
 	bullet.type = type
 

@@ -8,6 +8,8 @@ signal repaired
 signal destroyed
 signal triggered
 signal life_changed(current: int, max: int)
+signal damaged
+signal healed
 
 var grid_position := Vector2i.ZERO
 var level: Level
@@ -103,10 +105,12 @@ func trigger() -> void:
 func take_damage(amount: int):
 	life -= amount
 	sprite.damage_flash()
+	damaged.emit()
 
 func heal(amount: int):
 	life += amount
 	sprite.heal_flash()
+	healed.emit()
 	
 func _on_broke():
 	sprite.modulate = Color.GRAY

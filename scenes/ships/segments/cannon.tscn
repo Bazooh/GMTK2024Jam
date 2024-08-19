@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://do881jw57cn6h"]
+[gd_scene load_steps=13 format=3 uid="uid://do881jw57cn6h"]
 
 [ext_resource type="PackedScene" uid="uid://ccykutr8vdp1t" path="res://scenes/ships/segments/base.tscn" id="1_lnrul"]
 [ext_resource type="Script" path="res://scenes/ships/segments/cannon.gd" id="2_c3kim"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://b12hwy6np7fha" path="res://art/Attachments/Cannon_Blue.png" id="6_o6i6i"]
 [ext_resource type="Texture2D" uid="uid://bbv1g24t0oit0" path="res://art/Attachments/Cannon_Red.png" id="7_ncvwf"]
 [ext_resource type="Texture2D" uid="uid://d1a5xwf4r40wg" path="res://art/Attachments/Cannon_Yellow.png" id="8_muqwg"]
+[ext_resource type="PackedScene" uid="uid://b1he44y5i5bjr" path="res://scenes/other/sound_player.tscn" id="10_lmsrs"]
+[ext_resource type="AudioStream" uid="uid://cg21owfksgsnm" path="res://audio/snd_laser.wav" id="11_71flj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ki4ag"]
 resource_local_to_scene = true
@@ -19,17 +21,11 @@ shader_parameter/flash_value = 0.0
 
 [node name="Cannon" instance=ExtResource("1_lnrul")]
 script = ExtResource("2_c3kim")
-radius = null
-damage_percentage = null
-broken_percentage = null
-repair_percentage = null
-max_life = null
-walkable = null
+radius = 10
 
 [node name="Sprite" parent="." index="0"]
 material = SubResource("ShaderMaterial_ki4ag")
 texture = ExtResource("3_8qxa5")
-damage_colour = Color(0.87, 0.25172, 0.1566, 1)
 
 [node name="RotationPoint" type="Node2D" parent="Sprite" index="0"]
 unique_name_in_owner = true
@@ -43,4 +39,8 @@ blue_texture = ExtResource("6_o6i6i")
 red_texture = ExtResource("7_ncvwf")
 yellow_texture = ExtResource("8_muqwg")
 
+[node name="ShootSound" parent="." index="7" instance=ExtResource("10_lmsrs")]
+stream = ExtResource("11_71flj")
+
 [connection signal="on_set_type" from="." to="Sprite/RotationPoint/Cannon" method="_set_type"]
+[connection signal="shot" from="." to="ShootSound" method="play_sound"]

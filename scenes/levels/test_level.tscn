@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cnqvpdq56tvmw"]
+[gd_scene load_steps=12 format=3 uid="uid://cnqvpdq56tvmw"]
 
 [ext_resource type="Script" path="res://scenes/levels/level.gd" id="1_6p2av"]
 [ext_resource type="PackedScene" uid="uid://7r010xcu8eje" path="res://scenes/ships/player.tscn" id="2_cgfn2"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bkxmqi1p76w71" path="res://art/Clouds/Cloud2.png" id="8_07h0j"]
 [ext_resource type="Texture2D" uid="uid://ddip55m6c2e8l" path="res://art/Clouds/Cloud3.png" id="9_deq8a"]
 [ext_resource type="Texture2D" uid="uid://bhw2gfqeg25yp" path="res://art/Clouds/Cloud4.png" id="10_qim4v"]
+[ext_resource type="AudioStream" uid="uid://gsrs48eyqxng" path="res://audio/msc_main.mp3" id="11_gspmi"]
 
 [node name="TestLevel" type="Node2D"]
 
@@ -30,6 +31,12 @@ position = Vector2(80, 256)
 
 [node name="Cannon" parent="Level/Ships/Enemy" instance=ExtResource("4_uevfv")]
 position = Vector2(16, 0)
+radius = 10
+damage_percentage = 0.75
+broken_percentage = 0.5
+repair_percentage = 0.5
+max_life = 10
+walkable = false
 
 [node name="Player" parent="Level/Ships" instance=ExtResource("2_cgfn2")]
 position = Vector2(80, 80)
@@ -38,4 +45,9 @@ position = Vector2(80, 80)
 script = ExtResource("5_bbkpp")
 cloud_sprites = Array[Texture]([ExtResource("6_h7sgp"), ExtResource("7_vwqjg"), ExtResource("8_07h0j"), ExtResource("9_deq8a"), ExtResource("10_qim4v")])
 
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_gspmi")
+autoplay = true
+
 [connection signal="timeout" from="Level/TickSpeed" to="Level" method="_on_each_tick"]
+[connection signal="destroyed" from="Level/Ships/Enemy/Cannon" to="Level/Ships/Enemy/Cannon/BreakSound" method="play_sound"]

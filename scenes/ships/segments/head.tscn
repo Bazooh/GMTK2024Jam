@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bo8tj4g475qu7"]
+[gd_scene load_steps=7 format=3 uid="uid://bo8tj4g475qu7"]
 
 [ext_resource type="PackedScene" uid="uid://ccykutr8vdp1t" path="res://scenes/ships/segments/base.tscn" id="1_4bwtj"]
 [ext_resource type="Shader" path="res://shaders/sprite_flash.gdshader" id="2_5c1qy"]
 [ext_resource type="Texture2D" uid="uid://ctxtxl4iugimc" path="res://art/Segments/EnemyHead.png" id="2_5cmbk"]
 [ext_resource type="Texture2D" uid="uid://da0jb5lalu6e3" path="res://art/Minimap/Enemy.png" id="4_kwiks"]
+[ext_resource type="AudioStream" uid="uid://d2ktew6aqafhe" path="res://audio/snd_kill.wav" id="5_v763d"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_brq3j"]
 resource_local_to_scene = true
@@ -26,3 +27,6 @@ visibility_layer = 2
 z_index = 100
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("4_kwiks")
+
+[node name="DestroySound" parent="." index="5"]
+stream = ExtResource("5_v763d")

@@ -20,8 +20,8 @@ func _ready() -> void:
 
 	level.generate_chunks_around(head.grid_position, chunk_radius)
 
-	size_changed.connect(_on_size_changed)
-	size_changed.emit()
+	#size_changed.connect(_on_size_changed)
+	#size_changed.emit()
 
 
 func _process(_delta: float) -> void:
