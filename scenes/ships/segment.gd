@@ -41,7 +41,6 @@ var ship: Ship:
 @export var broken_percentage: float = 0.5
 @export var repair_percentage: float = 0.5
 
-
 @export var max_life: int = 10
 @onready var life: int = max_life:
 	set(value):
@@ -61,6 +60,9 @@ func _ready() -> void:
 
 	if is_in_group("Head"):
 		is_head = true
+		
+		
+	
 
 
 func initialize(level_: Level, grid_position_: Vector2i) -> void:

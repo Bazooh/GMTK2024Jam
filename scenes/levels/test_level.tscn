@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cnqvpdq56tvmw"]
+[gd_scene load_steps=23 format=3 uid="uid://cnqvpdq56tvmw"]
 
 [ext_resource type="Script" path="res://scenes/levels/level.gd" id="1_6p2av"]
 [ext_resource type="PackedScene" uid="uid://7r010xcu8eje" path="res://scenes/ships/player.tscn" id="2_cgfn2"]
@@ -8,11 +8,15 @@
 [ext_resource type="Texture2D" uid="uid://bkxmqi1p76w71" path="res://art/Clouds/Cloud2.png" id="8_07h0j"]
 [ext_resource type="Texture2D" uid="uid://ddip55m6c2e8l" path="res://art/Clouds/Cloud3.png" id="9_deq8a"]
 [ext_resource type="Texture2D" uid="uid://bhw2gfqeg25yp" path="res://art/Clouds/Cloud4.png" id="10_qim4v"]
+[ext_resource type="AudioStream" uid="uid://cuxp5vdycixgb" path="res://audio/jng_win.ogg" id="10_w3n1d"]
 [ext_resource type="AudioStream" uid="uid://gsrs48eyqxng" path="res://audio/msc_main.mp3" id="11_gspmi"]
+[ext_resource type="AudioStream" uid="uid://dnr1n7qmauwkc" path="res://audio/jng_lose.ogg" id="11_vlvqc"]
 [ext_resource type="Theme" uid="uid://cncm4eb6omtph" path="res://theme/main.tres" id="12_os8is"]
 [ext_resource type="Script" path="res://scenes/ui/ship_counter.gd" id="13_j7t8p"]
 [ext_resource type="Script" path="res://scenes/ui/win_screen.gd" id="14_xsd2j"]
 [ext_resource type="Script" path="res://scenes/ui/lose_screen.gd" id="15_pkw3t"]
+[ext_resource type="Script" path="res://scenes/ui/pause.gd" id="16_hvnqe"]
+[ext_resource type="AudioStream" uid="uid://lm453lhrfa70" path="res://audio/snd_connect.wav" id="17_0cimf"]
 
 [sub_resource type="Animation" id="Animation_02nor"]
 resource_name = "Flash"
@@ -192,7 +196,11 @@ offset_right = 159.0
 offset_bottom = -134.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "Restart"
+text = "Menu"
+
+[node name="WinSound" type="AudioStreamPlayer" parent="CanvasLayer/WinScreen"]
+stream = ExtResource("10_w3n1d")
+volume_db = -5.0
 
 [node name="LoseScreen" type="TextureRect" parent="CanvasLayer"]
 unique_name_in_owner = true
@@ -261,10 +269,88 @@ offset_right = 159.0
 offset_bottom = -134.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "Restart"
+text = "Menu"
+
+[node name="LoseSound" type="AudioStreamPlayer" parent="CanvasLayer/LoseScreen"]
+stream = ExtResource("11_vlvqc")
+volume_db = -5.0
+
+[node name="PauseScreen" type="TextureRect" parent="CanvasLayer"]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -309.0
+offset_top = -163.0
+offset_right = 308.0
+offset_bottom = 163.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("12_os8is")
+texture = SubResource("GradientTexture1D_h0bv2")
+script = ExtResource("16_hvnqe")
+
+[node name="Label" type="Label" parent="CanvasLayer/PauseScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -116.0
+offset_top = -124.0
+offset_right = 116.0
+offset_bottom = -73.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "Paused"
+
+[node name="Resume" type="Button" parent="CanvasLayer/PauseScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -159.0
+offset_top = -35.5
+offset_right = 159.0
+offset_bottom = 35.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Resume
+"
+
+[node name="Menu" type="Button" parent="CanvasLayer/PauseScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -159.0
+offset_top = 62.0
+offset_right = 159.0
+offset_bottom = 133.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Menu"
+
+[node name="ButtonSound" type="AudioStreamPlayer" parent="CanvasLayer/PauseScreen"]
+stream = ExtResource("17_0cimf")
+volume_db = -5.0
 
 [connection signal="ships_updated" from="Level" to="CanvasLayer/EnemiesRemaining" method="update_ship_label"]
 [connection signal="timeout" from="Level/TickSpeed" to="Level" method="_on_each_tick"]
 [connection signal="timeout" from="Level/Poison" to="Level" method="map_shrink"]
 [connection signal="pressed" from="CanvasLayer/WinScreen/Button" to="Level" method="restart"]
 [connection signal="pressed" from="CanvasLayer/LoseScreen/Button" to="Level" method="restart"]
+[connection signal="pressed" from="CanvasLayer/PauseScreen/Resume" to="CanvasLayer/PauseScreen" method="_on_resume_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseScreen/Menu" to="CanvasLayer/PauseScreen" method="_on_menu_pressed"]

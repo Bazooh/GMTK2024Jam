@@ -25,4 +25,7 @@ segment_frame = 2
 [node name="Sprite" parent="Head" index="0"]
 material = SubResource("ShaderMaterial_iyqyv")
 
+[node name="DestroySound" parent="Head" index="5"]
+volume_db = 0.0
+
 [editable path="Head"]

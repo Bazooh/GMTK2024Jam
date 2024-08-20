@@ -47,7 +47,7 @@ func shoot(target: Segment) -> void:
 	bullet.direction = global_position.direction_to(target.global_position)
 	bullet.ship = ship
 
-	get_tree().get_root().add_child(bullet)
+	level.add_child(bullet)
 	
 	shot.emit()
 	

@@ -31,6 +31,7 @@ const chunk_size: int = 16
 @export var enemy_density: float = 0.002
 @export var enemy_starting_segments : int = 1
 @export var enemy_extra_segment_chance: float = 0.5
+@export var menu := false
 
 @export var map_size: int = 10
 @export var n_ships: int = 99
@@ -58,13 +59,10 @@ func get_radar_radius() -> int:
 	else:
 		return 4
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("restart"):
-		restart()
 
 
 func restart():
-	get_tree().reload_current_scene()
+	get_tree().change_scene_to_file("res://scenes/menu.tscn")
 
 
 func _ready() -> void:
@@ -84,7 +82,7 @@ func _process(delta):
 
 
 func place_walls() -> void:
-	if game_over:
+	if game_over or menu:
 		return
 		
 	for i in range(-poison_distance, poison_distance):
@@ -186,9 +184,10 @@ func generate_ship(pos: Vector2i) -> Ship:
 	ship.get_node("Head").initialize(self, pos)
 	ships_node.add_child.call_deferred(ship)
 	
-	return
-	
-	#add extra segments
+	if not menu:
+		return
+		
+		
 	var free_spots = get_adjacent_free_spots(pos)
 	var generated_segments = 0
 	
@@ -207,6 +206,7 @@ func generate_ship(pos: Vector2i) -> Ship:
 		free_spots.erase(segment_pos)
 		free_spots += get_adjacent_free_spots(segment_pos)
 	
+
 	return ship
 	
 	
@@ -276,6 +276,9 @@ func remove_ship(ship: Ship) -> void:
 	ships.erase(ship)
 	chunks[get_chunk_id(ship.head.grid_position)].ship.erase(ship)
 
+	if menu:
+		return
+		
 	if ship is Player and not game_over:
 		lose_game()
 		return

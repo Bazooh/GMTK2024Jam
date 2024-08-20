@@ -13,7 +13,6 @@ var head: Segment
 
 @export var segment_frame = 0
 
-
 func _ready() -> void:
 
 	level = (get_tree().get_first_node_in_group("level") as Level)

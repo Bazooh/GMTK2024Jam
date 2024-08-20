@@ -1,9 +1,14 @@
-extends Control
+class_name ShipUI extends Control
 
 var enabled:= true
 
 @onready var health_bar: TextureProgressBar = $HealthBar
 
+func _ready():
+	var level = (get_tree().get_first_node_in_group("level") as Level)
+	if level and level.menu:
+		disable_health_bar()
+	
 func set_health_bar(current_health: int, max_health: int):
 	if not enabled:
 		return
