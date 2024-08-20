@@ -28,7 +28,6 @@ walkable = null
 
 [node name="Sprite" parent="." index="1"]
 material = SubResource("ShaderMaterial_torfy")
-damage_colour = Color(0.87, 0.25172, 0.1566, 1)
 
 [node name="Shield" type="Sprite2D" parent="Sprite" index="0"]
 position = Vector2(0, -1)

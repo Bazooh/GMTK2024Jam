@@ -3,13 +3,14 @@ class_name Pause extends TextureRect
 var paused := false
 @export var show := true
 @onready var button_sound: AudioStreamPlayer = $ButtonSound
+var disabled := false
 
 func _input(_event: InputEvent):
 	if Input.is_action_just_pressed("pause"):
 		toggle_pause()
 
 func toggle_pause():
-	if not paused and get_tree().paused:
+	if disabled or (not paused and get_tree().paused):
 		return
 	
 	button_sound.play()

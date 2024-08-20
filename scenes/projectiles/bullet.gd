@@ -10,6 +10,7 @@ var disabled := false
 @export var speed: float = 200
 @export var damage: int = 1
 @export var lifetime: float = 25
+@export var speed_offset := 0.1
 
 var time : float
 
@@ -31,7 +32,8 @@ var type : Bullet_Type:
 
 @onready var sprite: Sprite2D = $Sprite
 
-	
+func _ready():
+	speed *= randf_range(1 - speed_offset, 1 + speed_offset)
 
 func _process(delta: float) -> void:
 	if disabled:

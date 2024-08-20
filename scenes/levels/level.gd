@@ -24,6 +24,7 @@ const chunk_size: int = 16
 @onready var clouds: Clouds = $"../Clouds"
 @onready var win_screen: WinScreen = %WinScreen
 @onready var lose_screen: LoseScreen = %LoseScreen
+@onready var pause_screen: Pause = %PauseScreen
 
 
 @export var movement_time: float = 0.1
@@ -66,7 +67,7 @@ func restart():
 
 
 func _ready() -> void:
-	get_tree().root.get_viewport().set_canvas_cull_mask_bit(1, false)
+	get_tree().root.get_viewport().set_canvas_cull_mask_bit.call_deferred(1, false)
 
 	for inactive_segment in inactive_segments.get_children():
 		inactive_segment.initialize(self, inactive_segment.global_position / tile_size)
@@ -293,11 +294,13 @@ func remove_ship(ship: Ship) -> void:
 func win_game() -> void:
 	game_over = true
 	win_screen.open(time)
+	pause_screen.disabled = true
 
 
 func lose_game() -> void:
 	game_over = true
 	lose_screen.open(n_ships + 1)
+	pause_screen.disabled = true
 
 
 func map_shrink() -> void:
