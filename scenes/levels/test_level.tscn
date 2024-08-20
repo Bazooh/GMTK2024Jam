@@ -85,6 +85,9 @@ unique_name_in_owner = true
 [node name="BulletPool" type="Node2D" parent="Level"]
 unique_name_in_owner = true
 
+[node name="RandomScrap" type="Timer" parent="Level"]
+autostart = true
+
 [node name="Clouds" type="Node2D" parent="."]
 script = ExtResource("5_bbkpp")
 cloud_sprites = Array[Texture]([ExtResource("6_h7sgp"), ExtResource("7_vwqjg"), ExtResource("8_07h0j"), ExtResource("9_deq8a"), ExtResource("10_qim4v")])
@@ -342,6 +345,7 @@ volume_db = -5.0
 [connection signal="ships_updated" from="Level" to="CanvasLayer/EnemiesRemaining" method="update_ship_label"]
 [connection signal="timeout" from="Level/TickSpeed" to="Level" method="_on_each_tick"]
 [connection signal="timeout" from="Level/Poison" to="Level" method="map_shrink"]
+[connection signal="timeout" from="Level/RandomScrap" to="Level" method="_on_random_scrap_timeout"]
 [connection signal="pressed" from="CanvasLayer/WinScreen/Button" to="Level" method="restart"]
 [connection signal="pressed" from="CanvasLayer/LoseScreen/Button" to="Level" method="restart"]
 [connection signal="pressed" from="CanvasLayer/PauseScreen/Resume" to="CanvasLayer/PauseScreen" method="_on_resume_pressed"]

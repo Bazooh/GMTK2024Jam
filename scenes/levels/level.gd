@@ -352,3 +352,8 @@ func map_shrink() -> void:
 
 func is_inside_poison(pos: Vector2i) -> bool:
 	return pos.x < -poison_distance or pos.x >= poison_distance or pos.y < -poison_distance or pos.y >= poison_distance
+
+
+func _on_random_scrap_timeout() -> void:
+	var pos: Vector2i = get_random_free_pos()
+	chunks[get_chunk_id(pos)].segment.add(generate_segment(pos))
