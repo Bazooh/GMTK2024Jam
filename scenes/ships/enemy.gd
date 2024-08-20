@@ -66,14 +66,13 @@ func get_direction() -> Vector2i:
 			for y in range(-radar_radius, radar_radius + 1):
 				if (level.is_inside_poison(head.grid_position + Vector2i(level.chunk_size * Vector2(x,y)))):
 					if abs(x) == 1:
-						desirability.x += sin(x) * -abs(x) * poison_avoidance_desirability
+						desirability.x -= x * poison_avoidance_desirability
 					if abs(y) == 1:
-						desirability.y += sin(y) * -abs(y) * poison_avoidance_desirability
+						desirability.y -= y * poison_avoidance_desirability
 					
 					continue
 					
 				var chunk_id: Vector2i = current_chunk_id + Vector2i(x, y)
-				
 
 				if not level.chunks.has(chunk_id):
 					continue

@@ -8,13 +8,14 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_223dc"]
 radius = 6.0
 
-[node name="Bullet" type="Area2D"]
+[node name="Bullet" type="Area2D" node_paths=PackedStringArray("sprite")]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("2_g83y5")
 blue_texture = ExtResource("2_yl4vm")
 red_texture = ExtResource("1_8if7r")
 yellow_texture = ExtResource("4_emypm")
+sprite = NodePath("Sprite")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_223dc")

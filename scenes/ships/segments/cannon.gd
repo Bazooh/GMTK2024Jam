@@ -41,17 +41,10 @@ func shoot(target: Segment) -> void:
 	if not get_tree() or target == null:
 		return
 
-	var bullet: Bullet = bullet_prefab.instantiate()
-	bullet.global_position = global_position
-	bullet.rotation = canon_rotation_point.rotation
-	bullet.direction = global_position.direction_to(target.global_position)
-	bullet.ship = ship
-
-	level.add_child(bullet)
+	level.fire_bullet(ship, global_position, global_position.direction_to(target.global_position), type)
 	
 	shot.emit()
-	
-	bullet.type = type
+
 
 func pick_target(possible_segments: Array) -> Segment:
 	

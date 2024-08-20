@@ -4,6 +4,7 @@ enum Bullet_Type {NONE, BLUE, RED, YELLOW}
 
 var direction := Vector2.ZERO
 var ship: Ship
+var level: Level
 
 var disabled := false
 
@@ -12,14 +13,14 @@ var disabled := false
 @export var lifetime: float = 25
 @export var speed_offset := 0.1
 
-var time : float
+var time: float
 
 @export_group("Colour textures")
 @export var blue_texture: Texture
 @export var red_texture: Texture
 @export var yellow_texture: Texture
 
-var type : Bullet_Type:
+var type: Bullet_Type:
 	set(value):
 		type = value
 		match type:
@@ -30,10 +31,17 @@ var type : Bullet_Type:
 			Bullet_Type.YELLOW:
 				sprite.texture = yellow_texture
 
-@onready var sprite: Sprite2D = $Sprite
+@export var sprite: Sprite2D
+
+
+func initialize(level_: Level) -> void:
+	level = level_
+	destroy()
+
 
 func _ready():
 	speed *= randf_range(1 - speed_offset, 1 + speed_offset)
+
 
 func _process(delta: float) -> void:
 	if disabled:
@@ -45,8 +53,8 @@ func _process(delta: float) -> void:
 	if time >= lifetime:
 		destroy()
 
+
 func _on_area_entered(area: Area2D) -> void:
-	
 	if disabled:
 		return
 		
@@ -58,8 +66,22 @@ func _on_area_entered(area: Area2D) -> void:
 	if area is Segment and area.ship != ship and not area.is_destroyed and area.ship != null:
 		area.take_damage(damage)
 		destroy()
-	
-func destroy():
+
+
+func destroy() -> void:
 	disabled = true
+	ship = null
 	hide()
-	queue_free()
+	level.inactive_bullets.add(self)
+
+
+func activate(ship_: Ship, pos: Vector2, direction_: Vector2, type_: Bullet_Type) -> void:
+	time = 0
+	disabled = false
+	global_position = pos
+	ship = ship_
+	direction = direction_
+	type = type_
+	rotation = direction.angle() - PI
+	show()
+	level.inactive_bullets.erase(self)

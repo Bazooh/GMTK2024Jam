@@ -32,6 +32,10 @@ func size() -> int:
 	return values.size()
 
 
+func get_first() -> Variant:
+	return values.keys()[0]
+
+
 func pop_front() -> Variant:
 	var value = values.keys()[0]
 	values.erase(value)

@@ -16,6 +16,8 @@ const enemy_prebab: PackedScene = preload("res://scenes/ships/enemy.tscn")
 const poison_prefab: PackedScene = preload("res://scenes/levels/poison.tscn")
 const wall_prefab: PackedScene = preload("res://scenes/levels/wall.tscn")
 
+const bullet_prefab: PackedScene = preload("res://scenes/projectiles/bullet.tscn")
+
 const tile_size: float = 16.0
 const chunk_size: int = 16
 
@@ -25,6 +27,7 @@ const chunk_size: int = 16
 @onready var win_screen: WinScreen = %WinScreen
 @onready var lose_screen: LoseScreen = %LoseScreen
 @onready var pause_screen: Pause = %PauseScreen
+@onready var bullet_pool: Node2D = %BulletPool
 
 
 @export var movement_time: float = 0.1
@@ -42,6 +45,7 @@ var grid := {}
 var chunks := {}
 var ships: Array[Ship] = []
 var chunk_generated := Set.new()
+var inactive_bullets := Set.new()
 
 var game_over : bool
 var time = 0
@@ -80,6 +84,25 @@ func _ready() -> void:
 
 func _process(delta):
 	time += delta
+
+
+func add_bullet() -> void:
+	var bullet: Bullet = bullet_prefab.instantiate()
+	bullet.initialize(self)
+	bullet_pool.add_child.call_deferred(bullet)
+
+
+func init_bullet_pool() -> void:
+	for i in range(500):
+		add_bullet()
+
+
+func fire_bullet(ship: Ship, pos: Vector2, direction: Vector2, type: Bullet.Bullet_Type) -> void:
+	if inactive_bullets.is_empty():
+		add_bullet()
+	
+	var bullet: Bullet = inactive_bullets.pop_front()
+	bullet.activate(ship, pos, direction, type)
 
 
 func place_walls() -> void:

@@ -81,6 +81,9 @@ unique_name_in_owner = true
 
 [node name="Player" parent="Level/Ships" instance=ExtResource("2_cgfn2")]
 
+[node name="BulletPool" type="Node2D" parent="Level"]
+unique_name_in_owner = true
+
 [node name="Clouds" type="Node2D" parent="."]
 script = ExtResource("5_bbkpp")
 cloud_sprites = Array[Texture]([ExtResource("6_h7sgp"), ExtResource("7_vwqjg"), ExtResource("8_07h0j"), ExtResource("9_deq8a"), ExtResource("10_qim4v")])

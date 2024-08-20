@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://7qymqfwqydr3"]
+[gd_scene load_steps=12 format=3 uid="uid://b83c4x7dcucvp"]
 
 [ext_resource type="Script" path="res://scenes/ui/menu.gd" id="1_f8uyp"]
 [ext_resource type="Theme" uid="uid://cncm4eb6omtph" path="res://theme/main.tres" id="1_yqah3"]
@@ -37,6 +37,9 @@ autostart = true
 unique_name_in_owner = true
 
 [node name="Ships" type="Node2D" parent="Level"]
+
+[node name="BulletPool" type="Node2D" parent="Level"]
+unique_name_in_owner = true
 
 [node name="Menu" type="Control" parent="."]
 layout_mode = 3

@@ -188,9 +188,7 @@ func destroy() -> void:
 	level.remove_entity(grid_position, self)
 	
 	level.chunks[level.get_chunk_id(grid_position)].segment.erase(self)
-	if ship == null:
-		pass
-	else:
+	if ship != null:
 		ship.remove_segment(self)
 	
 	destroyed.emit()
