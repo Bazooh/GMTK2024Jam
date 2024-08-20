@@ -4,6 +4,8 @@ class_name Shield extends Segment
 
 signal on_set_type(type: Bullet.Bullet_Type)
 
+@export var damage_change := 0.1
+
 var type : Bullet.Bullet_Type:
 	set(value):
 		type = value
@@ -26,3 +28,8 @@ func _ready():
 func update_barrier():
 	barrier.set_enabled(ship != null and not broken)
 	barrier.ship = ship
+
+
+func _on_barrier_blocked() -> void:
+	if randf() < damage_change:
+		take_damage(1)
