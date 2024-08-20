@@ -1,0 +1,98 @@
+[gd_scene load_steps=12 format=3 uid="uid://7qymqfwqydr3"]
+
+[ext_resource type="Script" path="res://scenes/ui/menu.gd" id="1_f8uyp"]
+[ext_resource type="Theme" uid="uid://cncm4eb6omtph" path="res://theme/main.tres" id="1_yqah3"]
+[ext_resource type="Script" path="res://scenes/levels/level.gd" id="3_df122"]
+[ext_resource type="Script" path="res://scenes/levels/Clouds/clouds.gd" id="3_n07wr"]
+[ext_resource type="Texture2D" uid="uid://bjguln1u4t5q3" path="res://art/Clouds/Cloud1.png" id="3_snwhh"]
+[ext_resource type="Texture2D" uid="uid://conhb664qq1p5" path="res://art/Clouds/Cloud0.png" id="4_d0hsl"]
+[ext_resource type="Texture2D" uid="uid://bhw2gfqeg25yp" path="res://art/Clouds/Cloud4.png" id="4_me8ra"]
+[ext_resource type="Texture2D" uid="uid://ddip55m6c2e8l" path="res://art/Clouds/Cloud3.png" id="5_tdlrm"]
+[ext_resource type="Texture2D" uid="uid://bkxmqi1p76w71" path="res://art/Clouds/Cloud2.png" id="6_qh4cy"]
+[ext_resource type="AudioStream" uid="uid://cg2hh61dqlv8s" path="res://audio/msc_menu.mp3" id="7_44gqm"]
+[ext_resource type="AudioStream" uid="uid://lm453lhrfa70" path="res://audio/snd_connect.wav" id="11_04kig"]
+
+[node name="Menu" type="Node2D"]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_44gqm")
+volume_db = -10.0
+autoplay = true
+
+[node name="Clouds" type="Node2D" parent="."]
+script = ExtResource("3_n07wr")
+cloud_sprites = Array[Texture]([ExtResource("4_d0hsl"), ExtResource("3_snwhh"), ExtResource("6_qh4cy"), ExtResource("5_tdlrm"), ExtResource("4_me8ra")])
+
+[node name="Level" type="Node2D" parent="." groups=["level"]]
+script = ExtResource("3_df122")
+movement_time = null
+segment_density = null
+enemy_density = null
+enemy_starting_segments = null
+enemy_extra_segment_chance = null
+menu = true
+map_size = 5
+n_ships = 20
+infinite_map = null
+
+[node name="TickSpeed" type="Timer" parent="Level"]
+wait_time = 0.1
+autostart = true
+
+[node name="InactiveSegments" type="Node2D" parent="Level"]
+unique_name_in_owner = true
+
+[node name="Ships" type="Node2D" parent="Level"]
+
+[node name="Menu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f8uyp")
+
+[node name="Label" type="Label" parent="Menu"]
+top_level = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -417.0
+offset_top = -258.0
+offset_right = 412.0
+offset_bottom = 119.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_yqah3")
+theme_override_font_sizes/font_size = 150
+text = "Scrappy Skies"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Button" type="Button" parent="Menu"]
+top_level = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -202.0
+offset_top = -205.0
+offset_right = 202.0
+offset_bottom = -69.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("1_yqah3")
+theme_override_font_sizes/font_size = 50
+text = "PLAY"
+
+[node name="ClickSound" type="AudioStreamPlayer" parent="Menu"]
+stream = ExtResource("11_04kig")
+
+[connection signal="timeout" from="Level/TickSpeed" to="Level" method="_on_each_tick"]
+[connection signal="pressed" from="Menu/Button" to="Menu" method="play"]

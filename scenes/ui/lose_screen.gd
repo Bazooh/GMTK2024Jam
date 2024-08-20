@@ -6,5 +6,5 @@ class_name LoseScreen extends TextureRect
 func open(rank: int):
 	show()
 	
-	rank_label.text = "You ranked #" + str(rank)
+	rank_label.text = "You ranked " + str(rank)
 	lose_sound.play()

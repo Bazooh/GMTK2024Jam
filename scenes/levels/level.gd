@@ -22,9 +22,9 @@ const chunk_size: int = 16
 @onready var inactive_segments: Node2D = %InactiveSegments
 @onready var ships_node: Node2D = $Ships
 @onready var clouds: Clouds = $"../Clouds"
-@onready var win_screen: WinScreen = %WinScreen
-@onready var lose_screen: LoseScreen = %LoseScreen
-@onready var pause_screen: Pause = %PauseScreen
+var win_screen: WinScreen
+var lose_screen: LoseScreen
+var pause_screen: Pause
 
 
 @export var movement_time: float = 0.1
@@ -67,15 +67,21 @@ func restart():
 
 
 func _ready() -> void:
+	pass
 	get_tree().root.get_viewport().set_canvas_cull_mask_bit.call_deferred(1, false)
 
-	for inactive_segment in inactive_segments.get_children():
-		inactive_segment.initialize(self, inactive_segment.global_position / tile_size)
+	#for inactive_segment in inactive_segments.get_children():
+		#inactive_segment.initialize(self, inactive_segment.global_position / tile_size)
 	
 	if not infinite_map:
 		generate_map()
 	
 	time = 0
+	
+	if not menu:
+		win_screen = %WinScreen
+		lose_screen = %LoseScreen
+		pause_screen = %PauseScreen
 
 
 func _process(delta):
@@ -83,6 +89,7 @@ func _process(delta):
 
 
 func place_walls() -> void:
+	
 	if game_over or menu:
 		return
 		
