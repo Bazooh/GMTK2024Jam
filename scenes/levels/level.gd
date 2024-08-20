@@ -48,6 +48,15 @@ var player: Player
 
 @onready var poison_distance: int = map_size * chunk_size + 1
 
+func get_radar_radius() -> int:
+	if n_ships > 90:
+		return 1
+	elif n_ships > 60:
+		return 2
+	elif n_ships > 20:
+		return 3
+	else:
+		return 4
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("restart"):
@@ -75,6 +84,9 @@ func _process(delta):
 
 
 func place_walls() -> void:
+	if game_over:
+		return
+		
 	for i in range(-poison_distance, poison_distance):
 		var poses: Array[Vector2i] = [
 			Vector2i(i, -poison_distance),
@@ -174,6 +186,9 @@ func generate_ship(pos: Vector2i) -> Ship:
 	ship.get_node("Head").initialize(self, pos)
 	ships_node.add_child.call_deferred(ship)
 	
+	return
+	
+	#add extra segments
 	var free_spots = get_adjacent_free_spots(pos)
 	var generated_segments = 0
 	

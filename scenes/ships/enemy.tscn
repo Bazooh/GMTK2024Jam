@@ -13,6 +13,13 @@ shader_parameter/flash_value = 0.0
 
 [node name="Enemy" instance=ExtResource("1_ca2gd")]
 script = ExtResource("2_n30ew")
+avoid_big_desirability = 0.5
+go_toward_small_desirability = 2.0
+go_toward_segment_desirability = 10.0
+go_toward_center_desirability = 0.1
+poison_avoidance_desirability = 0.05
+move_randomly_desirability = 0.01
+random_offset = 0.2
 segment_frame = 2
 
 [node name="Sprite" parent="Head" index="0"]

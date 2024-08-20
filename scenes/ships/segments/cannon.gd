@@ -38,7 +38,7 @@ func shoot(target: Segment) -> void:
 	tween.tween_property(canon_rotation_point, "rotation", target.global_position.angle_to_point(global_position), 0.1)
 	await tween.finished
 	
-	if target == null:
+	if not get_tree() or target == null:
 		return
 
 	var bullet: Bullet = bullet_prefab.instantiate()

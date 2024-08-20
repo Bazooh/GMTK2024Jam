@@ -16,7 +16,6 @@ shader_parameter/flash_value = 0.0
 [node name="Head" instance=ExtResource("1_4bwtj")]
 damage_percentage = 0.5
 broken_percentage = 0.0
-max_life = 20
 
 [node name="Sprite" parent="." index="0"]
 material = SubResource("ShaderMaterial_brq3j")

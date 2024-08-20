@@ -3,6 +3,8 @@ class_name Ship extends Node2D
 
 signal died
 signal size_changed
+signal segment_attached(segment: Segment)
+signal segment_detached(segment: Segment)
 
 var level: Level
 var segments: Array[Segment] = []
@@ -37,7 +39,7 @@ func _ready() -> void:
 
 func death() -> void:
 	for segment in segments:
-		segment.destroy()
+		segment.deactivate()
 
 	if head != null:
 		head.is_head = false
@@ -105,12 +107,14 @@ func attach_adjacent_segments() -> void:
 func add_segment(segment: Segment) -> void:
 	segment.activate(self)
 	segments.append(segment)
+	segment_attached.emit(segment)
 
 	size_changed.emit()
 
 
 func remove_segment(segment: Segment) -> void:
 	segments.erase(segment)
+	segment_detached.emit(segment)
 	remove_detached_segments()
 
 	size_changed.emit()
@@ -118,8 +122,10 @@ func remove_segment(segment: Segment) -> void:
 
 func remove_detached_segments() -> void:
 	#mark all segments still attached to head
-	if not head.is_destroyed:
-		mark_segments(head)
+	if head.is_destroyed:
+		return
+		
+	mark_segments(head)
 	
 	#detach all unmarked segments
 	var attached_segments : Array[Segment] = []
@@ -130,6 +136,7 @@ func remove_detached_segments() -> void:
 			attached_segments.append(segment)
 		else:
 			segment.deactivate()
+			segment_detached.emit(segment)
 	
 	segments = attached_segments
 

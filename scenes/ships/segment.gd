@@ -114,12 +114,15 @@ func _trigger() -> void:
 
 
 func trigger() -> void:
-	if active and not is_destroyed:
+	if active and not is_destroyed and not broken:
 		triggered.emit()
 		_trigger()
 
 
 func take_damage(amount: int):
+	if level.game_over and ship is Player:
+		return
+		
 	life -= amount
 	sprite.damage_flash()
 	damaged.emit()

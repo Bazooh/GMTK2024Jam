@@ -15,6 +15,8 @@ func _ready() -> void:
 
 	if not level.is_node_ready():
 		await level.ready
+		if not get_tree():
+			return
 
 	camera.reparent(head)
 	head.sprite.frame = 1
@@ -39,6 +41,10 @@ func _process(_delta: float) -> void:
 
 
 func move_and_wait(direction: Vector2i) -> void:
+	
+	if head == null or head.is_destroyed:
+		return
+		
 	if is_moving:
 		return
 	
@@ -51,6 +57,9 @@ func move_and_wait(direction: Vector2i) -> void:
 	level.generate_chunks_around(head.grid_position, chunk_radius)
 
 	await get_tree().create_timer(level.movement_time).timeout
+	
+	if not get_tree():
+		return
 
 	is_moving = false
 
