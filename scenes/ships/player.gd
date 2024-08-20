@@ -64,11 +64,11 @@ func move_and_wait(direction: Vector2i) -> void:
 	is_moving = false
 
 
-func _on_size_changed() -> void:
-	var bounds: Rect2i = Useful.get_boundsi(segments.map(func(seg: Segment): return seg.grid_position))
-	var size: int = max(bounds.size.x, bounds.size.y)
-
-	var zoom: Vector2 = 3 * exp(-0.08 * size) * Vector2.ONE
-
-	var tween: Tween = create_tween()
-	tween.tween_property(camera, "zoom", zoom, 2.0)
+#func _on_size_changed() -> void:
+	#var bounds: Rect2i = Useful.get_boundsi(segments.map(func(seg: Segment): return seg.grid_position))
+	#var size: int = max(bounds.size.x, bounds.size.y)
+#
+	#var zoom: Vector2 = 3 * exp(-0.08 * size) * Vector2.ONE
+#
+	#var tween: Tween = create_tween()
+	#tween.tween_property(camera, "zoom", zoom, 2.0)

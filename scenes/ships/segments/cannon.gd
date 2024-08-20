@@ -32,7 +32,7 @@ func _trigger() -> void:
 func shoot(target: Segment) -> void:
 	if is_destroyed:
 		return
-		
+	
 	var tween = get_tree().create_tween()
 
 	tween.tween_property(canon_rotation_point, "rotation", target.global_position.angle_to_point(global_position), 0.1)

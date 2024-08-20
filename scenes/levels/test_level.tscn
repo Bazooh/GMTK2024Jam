@@ -66,6 +66,7 @@ gradient = SubResource("Gradient_501jx")
 
 [node name="Level" type="Node2D" parent="." groups=["level"]]
 script = ExtResource("1_6p2av")
+n_ships = 49
 
 [node name="TickSpeed" type="Timer" parent="Level"]
 wait_time = 0.1
@@ -117,15 +118,9 @@ libraries = {
 [node name="WinScreen" type="TextureRect" parent="CanvasLayer"]
 unique_name_in_owner = true
 visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -619.0
-offset_top = -327.0
-offset_right = 618.0
-offset_bottom = 327.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -208,15 +203,9 @@ volume_db = -5.0
 [node name="LoseScreen" type="TextureRect" parent="CanvasLayer"]
 unique_name_in_owner = true
 visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -619.0
-offset_top = -327.0
-offset_right = 618.0
-offset_bottom = 327.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
